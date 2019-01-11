@@ -11,13 +11,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Client.ChatClient;
+
 public class GUI {
     private JFrame frame = new JFrame("Chatter");
     private JTextField textField = new JTextField(40);
     private JTextArea messageArea = new JTextArea(8, 40);
     private JPanel panel = new JPanel();
     private JLabel labels[];
-
+    private ChatClient cc = new ChatClient();
     public GUI() {
     
 	    panel.setPreferredSize(new Dimension(130, 200));
@@ -34,7 +36,7 @@ public class GUI {
 	    textField.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	           	if(!textField.getText().equalsIgnoreCase("")) {
-	           		out.println(textField.getText());
+	           		cc.getOut().println(textField.getText());
 	           		textField.setText("");
 	           	}
 	           }

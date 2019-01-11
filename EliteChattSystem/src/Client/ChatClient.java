@@ -39,7 +39,13 @@ public class ChatClient {
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
     }
-    //Connectar till servern efter man  skrivit in IP och namn 
+    public PrintWriter getOut() {
+		return out;
+	}
+	public void setOut(PrintWriter out) {
+		this.out = out;
+	}
+	//Connectar till servern efter man  skrivit in IP och namn 
     private void run() throws IOException {
         String serverAddress = getServerAddress();
         Socket socket = new Socket(serverAddress, 9001);
