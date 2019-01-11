@@ -63,7 +63,7 @@ public class ChatClient {
              * the text area in preparation for the next message.
              */
             public void actionPerformed(ActionEvent e) {
-                out.println(textField.getText());
+                out.println(textField.getText() + "idiot");
                 textField.setText("");
             }
         });
