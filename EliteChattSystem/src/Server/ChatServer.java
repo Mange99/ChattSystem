@@ -20,5 +20,13 @@ public class ChatServer {
         } finally {
             listener.close();
         }
-    }    
+    }
+
+	public static HashSet<String> getNames() {
+		return names;
+	}
+
+	public static void setNames(HashSet<String> names) {
+		ChatServer.names = names;
+	}    
 }

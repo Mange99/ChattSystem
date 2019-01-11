@@ -5,14 +5,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-	public class Handler extends Thread {
-        private String name;
-        private Socket socket;
-        private BufferedReader in;
-        private PrintWriter out;
-        private ChatServer cs = new ChatServer();
+public class Handler extends Thread {
+       private String name;
+       private Socket socket;
+       private BufferedReader in;
+       private PrintWriter out;
+       private ChatServer cs = new ChatServer();
 
-        public Handler(Socket socket) {
+       public Handler(Socket socket) {
             this.socket = socket;
         }
         public void run() {
