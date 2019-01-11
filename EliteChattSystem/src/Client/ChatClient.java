@@ -9,6 +9,11 @@ import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+test222
+public class ChatClient {
 
 import GUI.GUI;
 
@@ -30,7 +35,7 @@ public class ChatClient {
   	           }
   	        });
     }
-    //När man startar programmet kmr en JOptionPane ruta där man skriver in IP address aka lokal aka 127.0.0.1
+    //Nï¿½r man startar programmet kmr en JOptionPane ruta dï¿½r man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
         	new JFrame(),
