@@ -1,4 +1,6 @@
 package Client;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,13 +17,23 @@ public class ChatClient {
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
+    
     public ChatClient() {
     	gui = new GUI();
+    	
+    	  gui.getTextField().addActionListener(new ActionListener() {
+  	    	public void actionPerformed(ActionEvent e) {
+  	           	if(!gui.getTextField().getText().equalsIgnoreCase("")) {
+  	           		out.println(gui.getTextField().getText());
+  	           		gui.getTextField().setText("");
+  	           	}
+  	           }
+  	        });
     }
     //När man startar programmet kmr en JOptionPane ruta där man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
-            gui.getFrame(),
+        	new JFrame(),
             "Enter IP Address of the Server:",
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
@@ -30,7 +42,7 @@ public class ChatClient {
     //Samma ruta som innan fast man ska skriva in vad man nickkar in-game 
     private String getName() {
         return JOptionPane.showInputDialog(
-            gui.getFrame(),
+            new JFrame(),
             "Choose a screen name:",
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
@@ -58,8 +70,6 @@ public class ChatClient {
 
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
-        client.gui.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        client.gui.getFrame().setVisible(true);
         client.run();
     }
 	public PrintWriter getOut() {

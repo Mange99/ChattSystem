@@ -1,8 +1,6 @@
 package GUI;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,15 +9,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import Client.ChatClient;
-
 public class GUI {
     private JFrame frame = new JFrame("Chatter");
     private JTextField textField = new JTextField(40);
     private JTextArea messageArea = new JTextArea(8, 40);
     private JPanel panel = new JPanel();
     private JLabel labels[];
-    private ChatClient cc = new ChatClient();
+    
     public GUI() {
     
 	    panel.setPreferredSize(new Dimension(130, 200));
@@ -32,15 +28,10 @@ public class GUI {
 	    frame.getContentPane().add(panel, "East");
 
 	    frame.pack();
+	    frame.setVisible(true);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    //textField actionlistern ifall de finns text i textfield så skriver den ut sedan sätter texten t "" aka tom
-	    textField.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	           	if(!textField.getText().equalsIgnoreCase("")) {
-	           		cc.getOut().println(textField.getText());
-	           		textField.setText("");
-	           	}
-	           }
-	        });
+	  
 	}
 	public JTextField getTextField() {
 		return textField;
