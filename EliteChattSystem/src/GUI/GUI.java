@@ -30,7 +30,7 @@ public class GUI {
 	    frame.pack();
 	    frame.setVisible(true);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    //textField actionlistern ifall de finns text i textfield så skriver den ut sedan sätter texten t "" aka tom
+	    //textField actionlistern ifall de finns text i textfield sï¿½ skriver den ut sedan sï¿½tter texten t "" aka tom
 	  
 	}
 	public JTextField getTextField() {
