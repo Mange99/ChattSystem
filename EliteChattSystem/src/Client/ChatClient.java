@@ -62,4 +62,10 @@ public class ChatClient {
         client.gui.getFrame().setVisible(true);
         client.run();
     }
+	public PrintWriter getOut() {
+		return out;
+	}
+	public void setOut(PrintWriter out) {
+		this.out = out;
+	}
 }
