@@ -11,6 +11,10 @@ import javax.swing.JOptionPane;
 import GUI.GUI;
 
 public class ChatClient {
+	private void sysout() {
+		// TODO Auto-generated method stub
+
+	}
 	//Clientens Reader Skrivare JFrame Textfield o TextArea 
     private BufferedReader in;
     private PrintWriter out;
