@@ -1,3 +1,4 @@
+package Server;
 // skapa flera chat rum
 
 import java.io.BufferedReader;
