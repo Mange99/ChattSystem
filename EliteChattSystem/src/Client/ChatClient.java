@@ -1,5 +1,5 @@
-package Client;
 
+package Client;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -13,73 +13,47 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+
+import GUI.GUI;
+
 public class ChatClient {
-
-    BufferedReader in;
-    PrintWriter out;
-    JFrame frame = new JFrame("Chatter");
-    JTextField textField = new JTextField(40);
-    JTextArea messageArea = new JTextArea(8, 40);
-
-    /**
-     * Constructs the client by laying out the GUI and registering a
-     * listener with the textfield so that pressing Return in the
-     * listener sends the textfield contents to the server.  Note
-     * however that the textfield is initially NOT editable, and
-     * only becomes editable AFTER the client receives the NAMEACCEPTED
-     * message from the server.
-     */
+	//Clientens Reader Skrivare JFrame Textfield o TextArea 
+    private BufferedReader in;
+    private PrintWriter out;
+    private GUI gui;
+    
     public ChatClient() {
-
-        // Layout GUI
-        textField.setEditable(false);
-        messageArea.setEditable(false);
-        frame.getContentPane().add(textField, "North");
-        frame.getContentPane().add(new JScrollPane(messageArea), "Center");
-        frame.pack();
-
-        // Add Listeners
-        textField.addActionListener(new ActionListener() {
-            /**
-             * Responds to pressing the enter key in the textfield by sending
-             * the contents of the text field to the server.    Then clear
-             * the text area in preparation for the next message.
-             */
-            public void actionPerformed(ActionEvent e) {
-                out.println(textField.getText() + "idiot");
-                textField.setText("");
-            }
-        });
+    	gui = new GUI();
+    	
+    	  gui.getTextField().addActionListener(new ActionListener() {
+  	    	public void actionPerformed(ActionEvent e) {
+  	           	if(!gui.getTextField().getText().equalsIgnoreCase("")) {
+  	           		out.println(gui.getTextField().getText());
+  	           		gui.getTextField().setText("");
+  	           	}
+  	           }
+  	        });
     }
-
-    /**
-     * Prompt for and return the address of the server.
-     */
+    //N�r man startar programmet kmr en JOptionPane ruta d�r man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
-            frame,
+        	new JFrame(),
             "Enter IP Address of the Server:",
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
     }
 
-    /**
-     * Prompt for and return the desired screen name.
-     */
+    //Samma ruta som innan fast man ska skriva in vad man nickkar in-game 
     private String getName() {
         return JOptionPane.showInputDialog(
-            frame,
+            new JFrame(),
             "Choose a screen name:",
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
     }
-
-    /**
-     * Connects to the server then enters the processing loop.
-     */
+    //Connectar till servern efter man  skrivit in IP och namn 
     private void run() throws IOException {
-
-        // Make connection and initialize streams
         String serverAddress = getServerAddress();
         Socket socket = new Socket(serverAddress, 9001);
         in = new BufferedReader(new InputStreamReader(
@@ -92,20 +66,21 @@ public class ChatClient {
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
-                textField.setEditable(true);
+                gui.getTextField().setEditable(true);          
             } else if (line.startsWith("MESSAGE")) {
-                messageArea.append(line.substring(8) + "\n");
+                gui.getMessageArea().append(line.substring(8) + "\n");
             }
         }
     }
 
-    /**
-     * Runs the client as an application with a closeable frame.
-     */
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
-        client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        client.frame.setVisible(true);
         client.run();
     }
+	public PrintWriter getOut() {
+		return out;
+	}
+	public void setOut(PrintWriter out) {
+		this.out = out;
+	}
 }
