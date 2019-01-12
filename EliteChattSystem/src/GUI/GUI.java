@@ -1,35 +1,33 @@
 package GUI;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+	
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 
 import Client.ChatClient;
 
 public class GUI {
     private JFrame frame = new JFrame("Chatter");
+    
+    Font f = new Font("Verdana",Font.BOLD,30);
+    
     private JTextField textField;
     private JTextArea messageArea;
     private JLabel labels[];
     private FriendList friendList;
     
     public GUI(ChatClient client) {
-    	//TextFielden där man skriver sitt message
+    	//TextFielden dï¿½r man skriver sitt message
     	textField = new JTextField(40);
     	textField.setEditable(false);
     	
-    	//Stora rutan där man ser allas meddelanden
+    	//Stora rutan dï¿½r man ser allas meddelanden
     	messageArea = new JTextArea(8, 40);
     	messageArea.setEditable(false);
     	
@@ -45,12 +43,17 @@ public class GUI {
 	    frame.setVisible(true);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    //textField actionlistern ifall de finns text i textfield så skriver den ut sedan sätter texten t "" aka tom
+	    //textField actionlistern ifall de finns text i textfield sï¿½ skriver den ut sedan sï¿½tter texten t "" aka tom
 	    textField.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	           	if(!textField.getText().equalsIgnoreCase("")) {
-	           		client.getOut().println(textField.getText());
-	           		textField.setText("");
+					if(textField.getText().startsWith("//")) {
+						client.getOut().println(textField.getText().substring(textField.getText().indexOf(" ")+1));
+					}
+					else {
+						client.getOut().println(textField.getText());
+					}
+					textField.setText("");
 	           	}
 	           }
 	        });

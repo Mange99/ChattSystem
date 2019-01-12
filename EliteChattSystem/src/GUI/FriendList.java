@@ -13,7 +13,7 @@ import javax.swing.ScrollPaneConstants;
 public class FriendList extends JPanel {
 	
 	/**
-	 * Klass för friendlistan
+	 * Klass fï¿½r friendlistan
 	 */
 	
 	private static final long serialVersionUID = 1L;
@@ -23,21 +23,20 @@ public class FriendList extends JPanel {
 	
 	public FriendList() {
 		
-		//skapa grupp knapp som tar dem checkboxes som är valda och bjud in dem klienterna till gruppchatt
+		//skapa grupp knapp som tar dem checkboxes som ï¿½r valda och bjud in dem klienterna till gruppchatt
     	createGroupButton = new JButton("Skapa grupp");
     	createGroupButton.addActionListener(e->{
     		for (int i = 0; i < checkBoxes.size(); i++) {
     			JCheckBox temp = checkBoxes.get(i);
     			
     			if (temp.isSelected()) {
-    				//skicka ip och lägg till i nya gruppen
-    				System.out.println(" användare " + temp.getText() + " är vald");
-    				
+    				//skicka ip och lï¿½gg till i nya gruppen
+    				System.out.println(" anvï¿½ndare " + temp.getText() + " ï¿½r vald");
     			}
     		}
     	});
     	
-    	//FriendList som är på höger sidan
+    	//FriendList som ï¿½r pï¿½ hï¿½ger sidan
 	    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	    
 	    scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -48,7 +47,7 @@ public class FriendList extends JPanel {
 	
 	public void addUserToList(String name) {
 		/**
-		 * Lägger till en checkbox i friendlistpanel med namnet och i checkBoxes
+		 * Lï¿½gger till en checkbox i friendlistpanel med namnet och i checkBoxes
 		 */
 		
 		JCheckBox checkbox = new JCheckBox(name);
