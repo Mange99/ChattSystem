@@ -10,11 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+/**
+ * @author alejyb1
+ *
+ */
 public class FriendList extends JPanel {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JButton createGroupButton;
 	private JScrollPane scrollPane;
@@ -42,17 +43,11 @@ public class FriendList extends JPanel {
 	    scrollPane.setPreferredSize(new Dimension(150, 200));
 	    this.add(createGroupButton);
 
-	    for (int i = 0; i < 4; i++) {
-	    	JCheckBox cb = new JCheckBox("test" + i);
-		    this.add(cb);
-		    checkBoxes.add(cb);
-	    }
-	    
-	    this.revalidate();
-
 	}
-	
-	public void addUsersToList(String name) {
+	/**
+	 * @param name
+	 */
+	public void addUserToList(String name) {
 		JCheckBox checkbox = new JCheckBox(name);
     	this.add(checkbox);
     	checkBoxes.add(checkbox);
@@ -60,6 +55,24 @@ public class FriendList extends JPanel {
     	this.revalidate();
     }
 	
+	/**
+	 * @param name
+	 */
+	public void removeUserFromList(String name) {
+		checkBoxes.remove(name);
+		for (int i = 0; i < checkBoxes.size(); i++) {
+			if (checkBoxes.get(i).getText().equals(name)) {
+				
+				this.remove(checkBoxes.get(i));
+			}
+		}
+		this.repaint();
+		this.revalidate();
+	}
+	
+	/**
+	 * @return
+	 */
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}

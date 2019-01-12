@@ -1,5 +1,4 @@
 package Client;
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,7 +14,7 @@ public class ChatClient {
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
-//    Magnus e king superior officer according to himself
+
     public ChatClient() {
     	gui = new GUI(this);
     	
@@ -26,6 +25,7 @@ public class ChatClient {
 		}
    
     }
+    
     //N�r man startar programmet kmr en JOptionPane ruta d�r man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
@@ -47,10 +47,10 @@ public class ChatClient {
     private void run() throws IOException {
         String serverAddress = getServerAddress();
         Socket socket = new Socket(serverAddress, 9001);
-        in = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
+        
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
-
+        
         // Process all messages from server, according to the protocol.
         while (true) {
             String line = in.readLine();
@@ -58,14 +58,20 @@ public class ChatClient {
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
-                gui.getTextField().setEditable(true);          
+                gui.getTextField().setEditable(true);
             } else if (line.startsWith("GLOBALMESSAGE")) {
             	gui.getMessageArea().setForeground(Color.BLACK);
             	String text = (line.substring(14) + "\n");
                 gui.getMessageArea().append(text);
             }else if (line.startsWith("PRIVATEMESSAGE")) {
-            	String text = ("<html><font color='blue'>" + line.substring(15) + "</font></html> \n");
+            	String text = (line.substring(15) + "\n");
                 gui.getMessageArea().append(text);
+            } else if (line.startsWith("NEWLOGIN")) {
+            	//N�r en ny klient ansluter l�ggs den till i friendlist
+            	gui.getFriendList().addUserToList(line.substring(9));
+            } else if (line.startsWith("LOGOUT")) {
+            	//N�r en annan klient disconnectar tas den bort fr�n listan
+            	gui.getFriendList().removeUserFromList(line.substring(7));
             }
         }
     }
