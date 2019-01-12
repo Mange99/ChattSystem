@@ -1,4 +1,5 @@
 package Server;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,15 +7,16 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Handler extends Thread {
-       private String name;
-       private Socket socket;
-       private BufferedReader in;
-       private PrintWriter out;
+    private String name;
+    private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
 
-       public Handler(Socket socket) {
-            this.socket = socket;
-        }
-        public void run() {
+    public Handler(Socket socket) {
+        this.socket = socket;
+    }
+
+    public void run() {
             try {
 
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -42,30 +44,56 @@ public class Handler extends Thread {
 
                 while (true) {
                     String input = in.readLine();
+                    
                     if (input == null) {
                         return;
                     }
-                    for (PrintWriter writer : ChatServer.writers) {
-                        writer.println("MESSAGE " + name + ": " + input);
+                    else if(input.substring(0,2).contains("//")) {
+                        System.out.println("1");
+                        String namn = input.substring(input.indexOf("//") + 1, input.indexOf(" "));    
+
+                        input = input.substring(input.indexOf(" "));
+                        int i=0;
+                        for(String str: ChatServer.ListNames) {
+                            if(str.trim().contains(namn)) {
+                                System.out.println("2");
+                                PrintWriter writer = ChatServer.ListWriters.get(i);
+                                writer.println("MESSAGE " + name + ": " + input);
+                           }
+                           i++;
+                        }
+                        
+                    } else {
+                        for (PrintWriter writer : ChatServer.writers) {
+
+                        // Lägg till villkor för endast till writer where name = string från gui
+                        writer.println("MESSAGE " + name + ": " + input + " ");
                     }
+                    }
+                    //if det inte finns // i meddelandet
+                    
+                    //else
                 }
-            } catch (IOException e) {
-                System.out.println(e);
-            } finally {
-                
-            	if (name != null) {
-                    ChatServer.names.remove(name);
-                    ChatServer.ListNames.remove(name);
-                }
-                if (out != null) {
-                    ChatServer.writers.remove(out);
-                    ChatServer.ListWriters.remove(out);
-                }
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                }
-            }
+            }catch(
+
+    IOException e)
+    {
+        System.out.println(e);
+    }finally
+    {
+
+        if (name != null) {
+            ChatServer.names.remove(name);
+            ChatServer.ListNames.remove(name);
+        }
+        if (out != null) {
+            ChatServer.writers.remove(out);
+            ChatServer.ListWriters.remove(out);
+        }
+        try {
+            socket.close();
+        } catch (IOException e) {
         }
     }
-
+}
+}
