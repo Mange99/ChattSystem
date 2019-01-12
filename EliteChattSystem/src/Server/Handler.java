@@ -11,7 +11,8 @@ public class Handler extends Thread {
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-
+     
+    
     public Handler(Socket socket) {
         this.socket = socket;
     }
@@ -44,18 +45,20 @@ public class Handler extends Thread {
 
                 while (true) {
                     String input = in.readLine();
-                    
+                    System.out.println(input);
+                    System.out.println(input);
                     if (input == null) {
                         return;
                     }
-                    else if(input.substring(0,2).contains("//")) {
+                    else if(input.startsWith("!!")) {
+                    	System.out.println(name);
                         System.out.println("1");
-                        String namn = input.substring(input.indexOf("//") + 1, input.indexOf(" "));    
-
+                        String namn = input.substring(input.indexOf("!!") + 2, input.indexOf(" "));    
+                        System.out.println("namn: " +namn);
                         input = input.substring(input.indexOf(" "));
                         int i=0;
                         for(String str: ChatServer.ListNames) {
-                            if(str.trim().contains(namn)) {
+                            if(str.trim().contains(namn) || str.trim().contains(name)) {
                                 System.out.println("2");
                                 PrintWriter writer = ChatServer.ListWriters.get(i);
                                 writer.println("MESSAGE " + name + ": " + input);
@@ -64,6 +67,7 @@ public class Handler extends Thread {
                         }
                         
                     } else {
+                    	System.out.println("3");
                         for (PrintWriter writer : ChatServer.writers) {
 
                         // Lägg till villkor för endast till writer where name = string från gui
