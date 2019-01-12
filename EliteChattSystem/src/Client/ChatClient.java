@@ -53,6 +53,7 @@ public class ChatClient {
         // Process all messages from server, according to the protocol.
         while (true) {
             String line = in.readLine();
+            
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
