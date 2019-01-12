@@ -49,6 +49,7 @@ public class FriendList extends JPanel {
 	 * @param name
 	 */
 	public void addUserToList(String name) {
+
 		JCheckBox checkbox = new JCheckBox(name);
     	this.add(checkbox);
     	checkBoxes.add(checkbox);

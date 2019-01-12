@@ -62,10 +62,10 @@ public class ChatClient {
             } else if (line.startsWith("MESSAGE")) {
                 gui.getMessageArea().append(line.substring(8) + "\n");
             } else if (line.startsWith("NEWLOGIN")) {
-            	//När en ny klient ansluter läggs den till i friendlist
+            	//Nï¿½r en ny klient ansluter lï¿½ggs den till i friendlist
             	gui.getFriendList().addUserToList(line.substring(9));
             } else if (line.startsWith("LOGOUT")) {
-            	//När en annan klient disconnectar tas den bort från listan
+            	//Nï¿½r en annan klient disconnectar tas den bort frï¿½n listan
             	gui.getFriendList().removeUserFromList(line.substring(7));
             }
         }
