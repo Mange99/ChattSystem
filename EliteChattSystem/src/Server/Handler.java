@@ -10,7 +10,6 @@ public class Handler extends Thread {
        private Socket socket;
        private BufferedReader in;
        private PrintWriter out;
-       private ChatServer cs = new ChatServer();
 
        public Handler(Socket socket) {
             this.socket = socket;
@@ -27,23 +26,26 @@ public class Handler extends Thread {
                     if (name == null) {
                         return;
                     }
-                    synchronized (cs.names) {
-                        if (!cs.names.contains(name)) {
-                            cs.names.add(name);
+                    synchronized (ChatServer.names) {
+                        if (!ChatServer.names.contains(name)) {
+                        	ChatServer.ListNames.add(name);
+                        	ChatServer.names.add(name);
+                            System.out.println("namn ok");
                             break;
                         }
                     }
                 }
 
                 out.println("NAMEACCEPTED");
-                cs.writers.add(out);
+                ChatServer.ListWriters.add(out);
+                ChatServer.writers.add(out);
 
                 while (true) {
                     String input = in.readLine();
                     if (input == null) {
                         return;
                     }
-                    for (PrintWriter writer : cs.writers) {
+                    for (PrintWriter writer : ChatServer.writers) {
                         writer.println("MESSAGE " + name + ": " + input);
                     }
                 }
@@ -52,10 +54,12 @@ public class Handler extends Thread {
             } finally {
                 
             	if (name != null) {
-                    cs.names.remove(name);
+                    ChatServer.names.remove(name);
+                    ChatServer.ListNames.remove(name);
                 }
                 if (out != null) {
-                    cs.writers.remove(out);
+                    ChatServer.writers.remove(out);
+                    ChatServer.ListWriters.remove(out);
                 }
                 try {
                     socket.close();
