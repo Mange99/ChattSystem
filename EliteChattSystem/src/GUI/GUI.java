@@ -33,7 +33,7 @@ public class GUI {
     	messageArea = new JTextArea(8, 40);
     	messageArea.setEditable(false);
     	
-    	//Skapa friendlist
+
     	friendList = new FriendList();
     	
 	    //Frame layout
