@@ -28,6 +28,7 @@ public class Handler extends Thread {
                     }
                     synchronized (ChatServer.names) {
                         if (!ChatServer.names.contains(name)) {
+                        	ChatServer.ListNames.add(name);
                         	ChatServer.names.add(name);
                             System.out.println("namn ok");
                             break;
@@ -36,6 +37,7 @@ public class Handler extends Thread {
                 }
 
                 out.println("NAMEACCEPTED");
+                ChatServer.ListWriters.add(out);
                 ChatServer.writers.add(out);
 
                 while (true) {
@@ -53,9 +55,11 @@ public class Handler extends Thread {
                 
             	if (name != null) {
                     ChatServer.names.remove(name);
+                    ChatServer.ListNames.remove(name);
                 }
                 if (out != null) {
                     ChatServer.writers.remove(out);
+                    ChatServer.ListWriters.remove(out);
                 }
                 try {
                     socket.close();
