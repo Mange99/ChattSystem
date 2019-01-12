@@ -12,80 +12,30 @@ import javax.swing.JTextField;
 
 import Client.ChatClient;
 
-public class GUI {
-    private JFrame frame = new JFrame("Chatter");
-    
-    Font f = new Font("Verdana",Font.BOLD,30);
-    
-    private JTextField textField;
-    private JTextArea messageArea;
+public class GUI extends AbstractGui{
+  
     private JLabel labels[];
     private FriendList friendList;
     
-    public GUI(ChatClient client) {
-    	//TextFielden d�r man skriver sitt message
-    	textField = new JTextField(40);
-    	textField.setEditable(false);
-    	
-    	//Stora rutan d�r man ser allas meddelanden
-    	messageArea = new JTextArea(8, 40);
-    	messageArea.setEditable(false);
+    public GUI(ChatClient c) {
+    	super(c);
+    	System.out.println("maingui k�r");
     	
 
     	friendList = new FriendList();
     	
 	    //Frame layout
-	    frame.getContentPane().add(textField, "South");
-	    frame.getContentPane().add(new JScrollPane(messageArea), "Center");
 	    frame.getContentPane().add(friendList.getScrollPane(), "East");
-	    
-	    frame.pack();
-	    frame.setVisible(true);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
-	    //textField actionlistern ifall de finns text i textfield s� skriver den ut sedan s�tter texten t "" aka tom
-	    textField.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	           	if(!textField.getText().equalsIgnoreCase("")) {
-					if(textField.getText().startsWith("//")) {
-						client.getOut().println(textField.getText().substring(textField.getText().indexOf(" ")+1));
-					}
-					else {
-						client.getOut().println(textField.getText());
-					}
-					textField.setText("");
-	           	}
-	           }
-	        });
+
+	    frame.revalidate();
+	  
+
 	}
     
-	public JTextField getTextField() {
-		return textField;
-	}
-	public void setTextField(JTextField textField) {
-		this.textField = textField;
-	}
-	public JTextArea getMessageArea() {
-		return messageArea;
-	}
-	public void setMessageArea(JTextArea messageArea) {
-		this.messageArea = messageArea;
-	}
-
 	public JLabel[] getLabels() {
 		return labels;
 	}
 	public void setLabels(JLabel[] labels) {
 		this.labels = labels;
-	}
-	public JFrame getFrame() {
-		return frame;
-	}
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
-	
-	public FriendList getFriendList() {
-		return friendList;
 	}
 }
