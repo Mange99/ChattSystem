@@ -52,6 +52,7 @@ public class FriendList extends JPanel {
 
 	}
 	
+	//lägger till användare 
 	public void addUsersToList(String name) {
 		JCheckBox checkbox = new JCheckBox(name);
     	this.add(checkbox);
