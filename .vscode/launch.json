@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ChatClient",
+            "request": "launch",
+            "mainClass": "Client.ChatClient",
+            "projectName": "EliteChattSystem"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ChatServer",
+            "request": "launch",
+            "mainClass": "Server.ChatServer",
+            "projectName": "EliteChattSystem"
+        }
+    ]
+}
