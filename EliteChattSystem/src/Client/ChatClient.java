@@ -1,19 +1,11 @@
 package Client;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-test222
-public class ChatClient {
 
 import GUI.GUI;
 
@@ -24,21 +16,19 @@ public class ChatClient {
     private GUI gui;
     
     public ChatClient() {
-    	gui = new GUI();
+    	gui = new GUI(this);
     	
-    	  gui.getTextField().addActionListener(new ActionListener() {
-  	    	public void actionPerformed(ActionEvent e) {
-  	           	if(!gui.getTextField().getText().equalsIgnoreCase("")) {
-  	           		out.println(gui.getTextField().getText());
-  	           		gui.getTextField().setText("");
-  	           	}
-  	           }
-  	        });
+    	try {
+			run();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+   
     }
     //N�r man startar programmet kmr en JOptionPane ruta d�r man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
-        	new JFrame(),
+        	gui.getFrame(),
             "Enter IP Address of the Server:",
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
@@ -47,7 +37,7 @@ public class ChatClient {
     //Samma ruta som innan fast man ska skriva in vad man nickkar in-game 
     private String getName() {
         return JOptionPane.showInputDialog(
-            new JFrame(),
+            gui.getFrame(),
             "Choose a screen name:",
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
@@ -75,7 +65,6 @@ public class ChatClient {
 
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
-        client.run();
     }
 	public PrintWriter getOut() {
 		return out;
