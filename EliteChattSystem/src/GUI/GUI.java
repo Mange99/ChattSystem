@@ -38,4 +38,7 @@ public class GUI extends AbstractGui{
 	public void setLabels(JLabel[] labels) {
 		this.labels = labels;
 	}
+	public FriendList getFriendList() {
+		return friendList;
+	}
 }
