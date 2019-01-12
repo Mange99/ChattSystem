@@ -13,8 +13,9 @@ import javax.swing.ScrollPaneConstants;
 public class FriendList extends JPanel {
 	
 	/**
-	 * 
+	 * Klass för friendlistan
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JButton createGroupButton;
 	private JScrollPane scrollPane;
@@ -31,6 +32,7 @@ public class FriendList extends JPanel {
     			if (temp.isSelected()) {
     				//skicka ip och lägg till i nya gruppen
     				System.out.println(" användare " + temp.getText() + " är vald");
+    				
     			}
     		}
     	});
@@ -42,23 +44,34 @@ public class FriendList extends JPanel {
 	    scrollPane.setPreferredSize(new Dimension(150, 200));
 	    this.add(createGroupButton);
 
-	    for (int i = 0; i < 4; i++) {
-	    	JCheckBox cb = new JCheckBox("test" + i);
-		    this.add(cb);
-		    checkBoxes.add(cb);
-	    }
-	    
-	    this.revalidate();
-
 	}
 	
-	public void addUsersToList(String name) {
+	public void addUserToList(String name) {
+		/**
+		 * Lägger till en checkbox i friendlistpanel med namnet och i checkBoxes
+		 */
+		
 		JCheckBox checkbox = new JCheckBox(name);
     	this.add(checkbox);
     	checkBoxes.add(checkbox);
     	
     	this.revalidate();
     }
+	
+	public void removeUserFromList(String name) {
+		/**
+		 * Tar bort klienten ur checkboxes listan och tar sedan bort den grafiskt
+		 */
+		checkBoxes.remove(name);
+		for (int i = 0; i < checkBoxes.size(); i++) {
+			if (checkBoxes.get(i).getText().equals(name)) {
+				
+				this.remove(checkBoxes.get(i));
+			}
+		}
+		this.repaint();
+		this.revalidate();
+	}
 	
 	public JScrollPane getScrollPane() {
 		return scrollPane;

@@ -81,4 +81,8 @@ public class GUI {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
+	
+	public FriendList getFriendList() {
+		return friendList;
+	}
 }

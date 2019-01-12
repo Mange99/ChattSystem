@@ -17,7 +17,7 @@ public class ChatServer {
     public static void main(String[] args) throws Exception {
         System.out.println("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
-
+        
          try {
             while (true) {
                 new Handler(listener.accept()).start();
