@@ -33,29 +33,6 @@ public class GUI {
     	messageArea = new JTextArea(8, 40);
     	messageArea.setEditable(false);
     	
-    	//Vänlista
-    	/*
-    	createGroupButton = new JButton("Skapa grupp");
-    	createGroupButton.addActionListener(e->{
-    		
-    	});
-    	
-    	//FriendList som är på höger sidan
-    	friendListPanel = new JPanel();
-	    friendListPanel.setLayout(new BoxLayout(friendListPanel, BoxLayout.Y_AXIS));
-	    
-	    JScrollPane scrollpane = new JScrollPane(friendListPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	    scrollpane.setPreferredSize(new Dimension(150, 200));
-	    friendListPanel.add(createGroupButton);
-	    //test
-	    friendListPanel.add(new FriendCheckBoxPanel("test1"));
-	    friendListPanel.add(new FriendCheckBoxPanel("test1"));
-	    friendListPanel.add(new FriendCheckBoxPanel("test2"));
-	    friendListPanel.add(new FriendCheckBoxPanel("test3"));
-	   
-	    friendListPanel.revalidate();
-	    */
-	    //slut på test
 
     	friendList = new FriendList();
     	
