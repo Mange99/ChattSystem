@@ -40,9 +40,22 @@ public class Handler extends Thread {
                 }
 
                 out.println("NAMEACCEPTED");
+                //Skriver ut alla redan anslutna klienter till den nya f�r att l�ggas till i friendlist
+                for (String oldName : ChatServer.ListNames) {
+                	if (!oldName.equals(this.name)) {
+                		out.println("NEWLOGIN " + oldName);
+                	}
+                }
+                
+                //Skriver ut den ny klientens namn till alla tidigare anslutna klienter
+                for (PrintWriter writer : ChatServer.writers) {
+                	writer.println("NEWLOGIN " + name);
+                }
+                
                 ChatServer.ListWriters.add(out);
                 ChatServer.writers.add(out);
-
+                
+                //MESSAGE LOOPEN
                 while (true) {
                     String input = in.readLine();
                     System.out.println(input);
@@ -78,26 +91,27 @@ public class Handler extends Thread {
                     
                     //else
                 }
-            }catch(
-
-    IOException e)
-    {
-        System.out.println(e);
-    }finally
-    {
-
-        if (name != null) {
-            ChatServer.names.remove(name);
-            ChatServer.ListNames.remove(name);
-        }
-        if (out != null) {
-            ChatServer.writers.remove(out);
-            ChatServer.ListWriters.remove(out);
-        }
-        try {
-            socket.close();
-        } catch (IOException e) {
+            } catch (IOException e) {
+                System.out.println(e);
+            } finally {
+                //N�r klienten st�nger ner
+            	
+            	if (name != null) {
+            		//Skickar till alla anslutna klienter att n�gon har loggat ut
+            		for (PrintWriter writer : ChatServer.writers) {
+                    	writer.println("LOGOUT " + name);
+                    }
+                    ChatServer.names.remove(name);
+                    ChatServer.ListNames.remove(name);
+                }
+                if (out != null) {
+                    ChatServer.writers.remove(out);
+                    ChatServer.ListWriters.remove(out);
+                }
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                }
+            }
         }
     }
-}
-}
