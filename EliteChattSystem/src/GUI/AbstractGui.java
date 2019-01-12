@@ -1,9 +1,16 @@
 package GUI;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -15,7 +22,7 @@ public abstract class AbstractGui {
 	protected JFrame frame = new JFrame("Chatter");
     protected JTextField textField;
     protected JTextArea messageArea;
-    
+    private URL url;
 	public AbstractGui(ChatClient client) {
 		
 		//TextFielden där man skriver sitt message
