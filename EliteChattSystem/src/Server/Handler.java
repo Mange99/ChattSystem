@@ -40,7 +40,7 @@ public class Handler extends Thread {
                 }
 
                 out.println("NAMEACCEPTED");
-                //Skriver ut alla redan anslutna klienter till den nya fï¿½r att lï¿½ggas till i friendlist
+                //Skriver ut alla redan anslutna klienter till den nya för att läggas till i friendlist
                 for (String oldName : ChatServer.ListNames) {
                 	if (!oldName.equals(this.name)) {
                 		out.println("NEWLOGIN " + oldName);
@@ -94,10 +94,10 @@ public class Handler extends Thread {
             } catch (IOException e) {
                 System.out.println(e);
             } finally {
-                //Nï¿½r klienten stï¿½nger ner
+                //När klienten stänger ner
             	
             	if (name != null) {
-            		//Skickar till alla anslutna klienter att nï¿½gon har loggat ut
+            		//Skickar till alla anslutna klienter att någon har loggat ut
             		for (PrintWriter writer : ChatServer.writers) {
                     	writer.println("LOGOUT " + name);
                     }
@@ -113,5 +113,6 @@ public class Handler extends Thread {
                 } catch (IOException e) {
                 }
             }
-        }
     }
+}
+

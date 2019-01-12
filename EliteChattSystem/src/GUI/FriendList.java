@@ -10,11 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+/**
+ * @author alejyb1
+ *
+ */
 public class FriendList extends JPanel {
-	
-	/**
-	 * Klass f�r friendlistan
-	 */
 	
 	private static final long serialVersionUID = 1L;
 	private JButton createGroupButton;
@@ -45,11 +45,11 @@ public class FriendList extends JPanel {
 
 	}
 	
+	/**
+	 * @param name
+	 */
 	public void addUserToList(String name) {
-		/**
-		 * L�gger till en checkbox i friendlistpanel med namnet och i checkBoxes
-		 */
-		
+
 		JCheckBox checkbox = new JCheckBox(name);
     	this.add(checkbox);
     	checkBoxes.add(checkbox);
@@ -57,10 +57,10 @@ public class FriendList extends JPanel {
     	this.revalidate();
     }
 	
+	/**
+	 * @param name
+	 */
 	public void removeUserFromList(String name) {
-		/**
-		 * Tar bort klienten ur checkboxes listan och tar sedan bort den grafiskt
-		 */
 		checkBoxes.remove(name);
 		for (int i = 0; i < checkBoxes.size(); i++) {
 			if (checkBoxes.get(i).getText().equals(name)) {
@@ -72,6 +72,9 @@ public class FriendList extends JPanel {
 		this.revalidate();
 	}
 	
+	/**
+	 * @return
+	 */
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
