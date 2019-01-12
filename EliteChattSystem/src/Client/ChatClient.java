@@ -14,7 +14,7 @@ public class ChatClient {
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
-    
+//    Magnus e king superior officer according to himself
     public ChatClient() {
     	gui = new GUI(this);
     	
