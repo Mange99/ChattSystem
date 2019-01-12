@@ -59,8 +59,13 @@ public class ChatClient {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
                 gui.getTextField().setEditable(true);
-            } else if (line.startsWith("MESSAGE")) {
-                gui.getMessageArea().append(line.substring(8) + "\n");
+            } else if (line.startsWith("GLOBALMESSAGE")) {
+            	gui.getMessageArea().setForeground(Color.BLACK);
+            	String text = (line.substring(14) + "\n");
+                gui.getMessageArea().append(text);
+            }else if (line.startsWith("PRIVATEMESSAGE")) {
+            	String text = (line.substring(15) + "\n");
+                gui.getMessageArea().append(text);
             } else if (line.startsWith("NEWLOGIN")) {
             	//N�r en ny klient ansluter l�ggs den till i friendlist
             	gui.getFriendList().addUserToList(line.substring(9));
