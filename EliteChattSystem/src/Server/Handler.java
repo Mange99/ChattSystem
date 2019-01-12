@@ -58,10 +58,16 @@ public class Handler extends Thread {
                         input = input.substring(input.indexOf(" "));
                         int i=0;
                         for(String str: ChatServer.ListNames) {
-                            if(str.trim().contains(namn) || str.trim().contains(name)) {
+                            if(str.trim().contains(namn) ) {
                                 System.out.println("2");
                                 PrintWriter writer = ChatServer.ListWriters.get(i);
-                                writer.println("MESSAGE " + name + ": " + input);
+                                
+                                writer.println("PRIVATEMESSAGE " + "Private Message From " + name + ": " + input);
+                                
+                           }else if(str.trim().contains(name)) {
+                        	   System.out.println("2");
+                               PrintWriter writer = ChatServer.ListWriters.get(i);
+                               writer.println("PRIVATEMESSAGE " + "Private Message To " + namn + ": " + input);
                            }
                            i++;
                         }
@@ -71,7 +77,7 @@ public class Handler extends Thread {
                         for (PrintWriter writer : ChatServer.writers) {
 
                         // Lägg till villkor för endast till writer where name = string från gui
-                        writer.println("MESSAGE " + name + ": " + input + " ");
+                        writer.println("GLOBALMESSAGE " +  name + ": " + input + " ");
                     }
                     }
                     //if det inte finns // i meddelandet

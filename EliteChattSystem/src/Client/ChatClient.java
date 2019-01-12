@@ -1,4 +1,5 @@
 package Client;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,13 +54,18 @@ public class ChatClient {
         // Process all messages from server, according to the protocol.
         while (true) {
             String line = in.readLine();
-            
+            System.out.println(line);
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
                 gui.getTextField().setEditable(true);          
-            } else if (line.startsWith("MESSAGE")) {
-                gui.getMessageArea().append(line.substring(8) + "\n");
+            } else if (line.startsWith("GLOBALMESSAGE")) {
+            	gui.getMessageArea().setForeground(Color.BLACK);
+            	String text = (line.substring(14) + "\n");
+                gui.getMessageArea().append(text);
+            }else if (line.startsWith("PRIVATEMESSAGE")) {
+            	String text = ("<html><font color='blue'>" + line.substring(15) + "</font></html> \n");
+                gui.getMessageArea().append(text);
             }
         }
     }
