@@ -77,6 +77,7 @@ public class ChatClient {
             }else if (line.startsWith("GIF")) {
             	new DisplayGifGUI(new URL(line.substring(3)), "FunnyGifs", gui);
             }
+            
         }
     }
     //Main everytime you start run it a new clint will be created. 

@@ -58,22 +58,33 @@ public class Handler extends Thread {
 				System.out.println(input);
 				if (input == null) {
 					return;
-				} else if (input.startsWith("!!")) {
+				} else if (input.startsWith("!!") && input.matches(".*\\s+.*")) {
 					System.out.println(name);
 					//ITS ALL FUCKED UPP
 					String namn = input.substring(input.indexOf("!!") + 2, input.indexOf(" "));
 					System.out.println("namn: " + namn);
+					
 					input = input.substring(input.indexOf(" "));
 					int i = 0;
-					for (String str : ChatServer.ListNames) {
-						if (str.trim().contains(namn)) {
-							PrintWriter writer = ChatServer.ListWriters.get(i);
-							writer.println("PRIVATEMESSAGE " + "Private Message From " + name + ": " + input);
-						} else if (str.trim().contains(name)) {
-							PrintWriter writer = ChatServer.ListWriters.get(i);
-							writer.println("PRIVATEMESSAGE " + "Private Message To " + namn + ": " + input);
+					if(ChatServer.names.contains(namn)) {
+						for (String str : ChatServer.ListNames) {
+							if (str.trim().contains(namn)) {
+									PrintWriter writer = ChatServer.ListWriters.get(i);
+									writer.println("PRIVATEMESSAGE " + "Private Message From " + name + ": " + input);
+								} else if (str.trim().contains(name)) {
+									PrintWriter writer = ChatServer.ListWriters.get(i);
+									writer.println("PRIVATEMESSAGE " + "Private Message To " + namn + ": " + input);
+								}
+							i++;
 						}
-						i++;
+					}else {
+						for (String str : ChatServer.ListNames) {
+							if (str.trim().contains(name)) {
+								PrintWriter writer = ChatServer.ListWriters.get(i);
+								writer.println("PRIVATEMESSAGE " + "User: " + namn + ", doesn´t exist, you have no friends");
+								}
+							i++;
+						}
 					}
 				} else if (input.startsWith("GIF")) {
 					for (PrintWriter writer : ChatServer.writers) {
@@ -82,8 +93,9 @@ public class Handler extends Thread {
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
 						// Global message writes name : then input
-						System.out.println("Fuck us sideways " + input);
+						
 						writer.println("GLOBALMESSAGE " + name + ": " + input + " ");
+						
 					}
 				}
 			}
