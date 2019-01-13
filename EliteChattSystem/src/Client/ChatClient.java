@@ -1,22 +1,29 @@
 package Client;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 
+import GUI.DisplayGifGUI;
 import GUI.GUI;
+import GUI.GruppChattGUI;
 
 public class ChatClient {
-	//Clientens Reader Skrivare JFrame Textfield o TextArea 
+
+	
+	  private Socket socket;
+	//The Clients reader, writer and interface(GUI) 
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
 
     public ChatClient() {
-    	gui = new GUI(this);
+    	gui = new GUI(this, "GLOBALCHAT");
     	
     	try {
 			run();
@@ -25,8 +32,7 @@ public class ChatClient {
 		}
    
     }
-    
-    //N�r man startar programmet kmr en JOptionPane ruta d�r man skriver in IP address aka lokal aka 127.0.0.1
+    //When you start the program a JOptionPane will appear on the screen where you have to enter your IP
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
         	gui.getFrame(),
@@ -35,7 +41,7 @@ public class ChatClient {
             JOptionPane.QUESTION_MESSAGE);
     }
 
-    //Samma ruta som innan fast man ska skriva in vad man nickkar in-game 
+    //Same as the window before except now you have to enter your nickname for the chat 
     private String getName() {
         return JOptionPane.showInputDialog(
             gui.getFrame(),
@@ -43,10 +49,10 @@ public class ChatClient {
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
     }
-    //Connectar till servern efter man  skrivit in IP och namn 
+    //Connection to the server after entering IP and name; 
     private void run() throws IOException {
         String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9001);
+        socket = new Socket(serverAddress, 9001);
         
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -59,21 +65,34 @@ public class ChatClient {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
                 gui.getTextField().setEditable(true);
-            } else if (line.startsWith("MESSAGE")) {
-                gui.getMessageArea().append(line.substring(8) + "\n");
+            } else if (line.startsWith("GLOBALMESSAGE")) {
+            	gui.getMessageArea().setForeground(Color.BLACK);
+            	String text = (line.substring(14) + "\n");
+                gui.getMessageArea().append(text);
+            }else if (line.startsWith("PRIVATEMESSAGE")) {
+            	String text = (line.substring(15) + "\n");
+                gui.getMessageArea().append(text);
             } else if (line.startsWith("NEWLOGIN")) {
-            	//N�r en ny klient ansluter l�ggs den till i friendlist
+
             	gui.getFriendList().addUserToList(line.substring(9));
             } else if (line.startsWith("LOGOUT")) {
-            	//N�r en annan klient disconnectar tas den bort fr�n listan
             	gui.getFriendList().removeUserFromList(line.substring(7));
+            } else if (line.startsWith("GROUPINVITE")) {
+            	GruppChattGUI gc = new GruppChattGUI(this, "GROUPCHAT");
+            }else if (line.startsWith("GIF")) {
+            	new DisplayGifGUI(new URL(line.substring(3)), "FunnyGifs", gui);
+
             }
         }
     }
-
+    //Main everytime you start run it a new clint will be created. 
     public static void main(String[] args) throws Exception {
-        ChatClient client = new ChatClient();
+    	new ChatClient();
     }
+    public Socket getSocket() {
+    	return socket;
+    }
+    //Getter and setter for the printWriter
 	public PrintWriter getOut() {
 		return out;
 	}
