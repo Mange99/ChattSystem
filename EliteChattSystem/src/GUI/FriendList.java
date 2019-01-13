@@ -10,6 +10,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+
+import Client.ChatClient;
+
+/**
+ * @author alejyb1
+ *
+ */
 public class FriendList extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -17,21 +24,26 @@ public class FriendList extends JPanel {
 	private JScrollPane scrollPane;
 	private LinkedList<JCheckBox> checkBoxes = new LinkedList<JCheckBox>();
 	
-	public FriendList() {
+
+	public FriendList(ChatClient client) {
 		//A "Create Gruop Button" That will create a new gruop-chat with the people chosen form the checkboxes.
+
     	createGroupButton = new JButton("Skapa grupp");
     	createGroupButton.addActionListener(e->{
+    		String createGroupMessage = "CREATEGROUP " + client.getSocket().getLocalAddress() + ";";
     		for (int i = 0; i < checkBoxes.size(); i++) {
     			JCheckBox temp = checkBoxes.get(i);
     			
     			if (temp.isSelected()) {
-    				//Send IP and add them to the gruop
-    				System.out.println(" User " + temp.getText() + "  Chosen");
+    				createGroupMessage += " " + temp.getText();
+    				System.out.println(createGroupMessage);
     			}
     		}
+    		client.getOut().println(createGroupMessage);
     	});
     	
     	//The friendlist to the right in the screen
+
 	    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	    
 	    scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -49,11 +61,10 @@ public class FriendList extends JPanel {
     }
 	//Removes users from the friendlist when they leaves. Then repain and revalidate the Frame for the users sill online
 	public void removeUserFromList(String name) {
-		checkBoxes.remove(name);
 		for (int i = 0; i < checkBoxes.size(); i++) {
 			if (checkBoxes.get(i).getText().equals(name)) {
-				
 				this.remove(checkBoxes.get(i));
+				checkBoxes.remove(i);
 			}
 		}
 		this.repaint();
