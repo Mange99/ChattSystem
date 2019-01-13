@@ -18,11 +18,15 @@ import javax.swing.JTextField;
 import Client.ChatClient;
 
 public abstract class AbstractGui {
-	protected JFrame frame = new JFrame("Chatter");
+
+  protected JFrame frame;
 	protected JTextField textField;
 	protected JTextArea messageArea;
-	private AbstractGui self;
-	public AbstractGui(ChatClient client) {
+  private AbstractGui self;
+  
+	public AbstractGui(ChatClient client, String title) {
+
+		frame = new JFrame(title);
 		self = this;
 		// Textfield where you enter your messages
 		textField = new JTextField(40);
@@ -49,6 +53,7 @@ public abstract class AbstractGui {
 				}
 			}
 		});
+
 		// The messageArea a JTextArea where all the messages appears
 		messageArea = new JTextArea(8, 40);
 		messageArea.setEditable(false);
@@ -71,6 +76,7 @@ public abstract class AbstractGui {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
+
 	//Getters and setters for Textfield, MessageArea, JFrame
 	public JTextField getTextField() {
 		return textField;

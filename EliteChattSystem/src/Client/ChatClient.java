@@ -11,15 +11,19 @@ import javax.swing.JOptionPane;
 
 import GUI.DisplayGifGUI;
 import GUI.GUI;
+import GUI.GruppChattGUI;
 
 public class ChatClient {
+
+	
+	  private Socket socket;
 	//The Clients reader, writer and interface(GUI) 
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
 
     public ChatClient() {
-    	gui = new GUI(this);
+    	gui = new GUI(this, "GLOBALCHAT");
     	
     	try {
 			run();
@@ -48,7 +52,7 @@ public class ChatClient {
     //Connection to the server after entering IP and name; 
     private void run() throws IOException {
         String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9001);
+        socket = new Socket(serverAddress, 9001);
         
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -69,19 +73,24 @@ public class ChatClient {
             	String text = (line.substring(15) + "\n");
                 gui.getMessageArea().append(text);
             } else if (line.startsWith("NEWLOGIN")) {
-            	//When a new client connects to the server it will be added to the friendlist panel
+
             	gui.getFriendList().addUserToList(line.substring(9));
             } else if (line.startsWith("LOGOUT")) {
-            	//When a new client leaves the chat room deleted to the friendlist panel
             	gui.getFriendList().removeUserFromList(line.substring(7));
+            } else if (line.startsWith("GROUPINVITE")) {
+            	GruppChattGUI gc = new GruppChattGUI(this, "GROUPCHAT");
             }else if (line.startsWith("GIF")) {
             	new DisplayGifGUI(new URL(line.substring(3)), "FunnyGifs", gui);
+
             }
         }
     }
     //Main everytime you start run it a new clint will be created. 
     public static void main(String[] args) throws Exception {
-        ChatClient client = new ChatClient();
+    	new ChatClient();
+    }
+    public Socket getSocket() {
+    	return socket;
     }
     //Getter and setter for the printWriter
 	public PrintWriter getOut() {

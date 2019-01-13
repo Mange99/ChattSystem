@@ -36,14 +36,15 @@ public class Handler extends Thread {
 					}
 				}
 			}
+
 			out.println("NAMEACCEPTED");
-			// Prints the new clients name to all the already connected users
 			for (String oldName : ChatServer.ListNames) {
 				if (!oldName.equals(this.name)) {
 					out.println("NEWLOGIN " + oldName);
 				}
 			}
-			// Prints the new clients name to the already existing ones
+
+			// Skriver ut den ny klientens namn till alla tidigare anslutna klienter
 			for (PrintWriter writer : ChatServer.writers) {
 				writer.println("NEWLOGIN " + name);
 			}
@@ -51,7 +52,7 @@ public class Handler extends Thread {
 			ChatServer.ListWriters.add(out);
 			ChatServer.writers.add(out);
 
-			// MESSAGE LOOP
+			// MESSAGE LOOPEN
 			while (true) {
 				String input = in.readLine();
 				System.out.println(input);
@@ -79,6 +80,19 @@ public class Handler extends Thread {
 					for (PrintWriter writer : ChatServer.writers) {
 						writer.println("GIF " + input.substring(3));
 					}
+				}else if(input.startsWith("CREATEGROUP")) {
+					System.out.println("CREATEGROUP FÃ–RST");
+					String ip = input.substring(12, input.indexOf(";"));
+					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
+					for (int i = 0; i < deltagare.length; i++) {
+						System.out.println("deltagare " + deltagare[i]);
+						for (int j = 0; j < ChatServer.ListNames.size(); j++) {
+							if (ChatServer.ListNames.get(j).equals(deltagare[i])) {
+								PrintWriter writer = ChatServer.ListWriters.get(j);
+								writer.println("GROUPINVITE " + ip);
+							}
+						}
+					}
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
 						// Global message writes name : then input
@@ -90,7 +104,7 @@ public class Handler extends Thread {
 		} catch (IOException e) {
 			System.out.println(e);
 		} finally {
-			// När klienten stänger ner
+			System.out.println("FINALLY");
 			// When the client exits the chat
 			if (name != null) {
 				// Sending to all the connectiong users that a client has logged out
