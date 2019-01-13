@@ -1,37 +1,18 @@
 package Server;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.util.HashSet;
 import java.util.LinkedList;
 
-public class ChatServer {
+public class ChatServer extends AbstractServer {
 
-	protected static final int PORT = 9001;
+	public ChatServer(int port) throws IOException {
+		super(port);
+	}
 	
 	protected static LinkedList<String> ListNames  = new LinkedList<String>();
 	protected static LinkedList<PrintWriter> ListWriters  = new LinkedList<PrintWriter>();
 	
-    protected static HashSet<String> names = new HashSet<String>();
-    protected static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
-	
     public static void main(String[] args) throws Exception {
-        System.out.println("The chat server is running.");
-        ServerSocket listener = new ServerSocket(PORT);
-        
-         try {
-            while (true) {
-                new Handler(listener.accept()).start();
-            }
-        } finally {
-            listener.close();
-        }
+    	new ChatServer(9001);
     }
-
-	public static HashSet<String> getNames() {
-		return names;
-	}
-
-	public static void setNames(HashSet<String> names) {
-		ChatServer.names = names;
-	}    
 }

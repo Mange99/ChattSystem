@@ -8,7 +8,7 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import GUI.GUI;
-import GUI.GruppChatt;
+import GUI.GruppChattGUI;
 
 public class ChatClient {
 	//Clientens Reader Skrivare JFrame Textfield o TextArea
@@ -68,13 +68,13 @@ public class ChatClient {
             } else if (line.startsWith("LOGOUT")) {
             	gui.getFriendList().removeUserFromList(line.substring(7));
             } else if (line.startsWith("GROUPINVITE")) {
-            	GruppChatt gc = new GruppChatt(this, "GROUPCHAT");
+            	GruppChattGUI gc = new GruppChattGUI(this, "GROUPCHAT");
             }
         }
     }
 
     public static void main(String[] args) throws Exception {
-        ChatClient client = new ChatClient();
+    	new ChatClient();
     }
     public Socket getSocket() {
     	return socket;

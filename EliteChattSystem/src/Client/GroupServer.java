@@ -1,5 +1,12 @@
 package Client;
 
-public class GroupServer {
+import java.io.IOException;
 
+import Server.AbstractServer;
+
+public class GroupServer extends AbstractServer {
+	
+	public GroupServer(int port) throws IOException {
+		super(port);
+	}
 }

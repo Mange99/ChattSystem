@@ -4,14 +4,17 @@ import javax.swing.JOptionPane;
 
 import Client.ChatClient;
 
-public class GruppChatt extends AbstractGui{
-
-	public GruppChatt(ChatClient client, String title) {
+public class GruppChattGUI extends AbstractGui{
+	
+	public GruppChattGUI(ChatClient client, String title) {
 		super(client, title);
 		
-		if (acceptWindow() == 0) {
-			
+		if (acceptWindow() != 0) {
+			return;
+		} else {
+			textField.setEditable(true);
 		}
+		
 	}
 
 	public int acceptWindow() {
