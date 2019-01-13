@@ -1,14 +1,6 @@
 package GUI;
 	
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import Client.ChatClient;
 
@@ -16,12 +8,12 @@ public class GUI extends AbstractGui{
   
     private JLabel labels[];
     private FriendList friendList;
-    
+    //The GUI class that run all the methds in AbstarctGUI
     public GUI(ChatClient c) {
     	super(c);
     	System.out.println("maingui k�r");
     	
-
+    	//Creating a friendlist object
     	friendList = new FriendList();
     	
 	    //Frame layout
@@ -31,7 +23,7 @@ public class GUI extends AbstractGui{
 	  
 
 	}
-    
+    //Getter and setter for Label and getter for FriendList
 	public JLabel[] getLabels() {
 		return labels;
 	}

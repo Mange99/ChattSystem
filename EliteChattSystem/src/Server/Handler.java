@@ -16,10 +16,8 @@ public class Handler extends Thread {
     public Handler(Socket socket) {
         this.socket = socket;
     }
-
     public void run() {
             try {
-
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
                 
@@ -40,14 +38,14 @@ public class Handler extends Thread {
                 }
 
                 out.println("NAMEACCEPTED");
-                //Skriver ut alla redan anslutna klienter till den nya för att läggas till i friendlist
+                //Prints the new clients name to all the already connected users 
                 for (String oldName : ChatServer.ListNames) {
                 	if (!oldName.equals(this.name)) {
                 		out.println("NEWLOGIN " + oldName);
                 	}
                 }
                 
-                //Skriver ut den ny klientens namn till alla tidigare anslutna klienter
+                //Prints the new clients name to the already existing ones
                 for (PrintWriter writer : ChatServer.writers) {
                 	writer.println("NEWLOGIN " + name);
                 }
@@ -55,7 +53,7 @@ public class Handler extends Thread {
                 ChatServer.ListWriters.add(out);
                 ChatServer.writers.add(out);
                 
-                //MESSAGE LOOPEN
+                //MESSAGE LOOP
                 while (true) {
                     String input = in.readLine();
                     System.out.println(input);
@@ -87,23 +85,20 @@ public class Handler extends Thread {
                         
                     } else {
                     	System.out.println("3");
-                        for (PrintWriter writer : ChatServer.writers) {
+	                        for (PrintWriter writer : ChatServer.writers) {
+	                        	//Global message writes name : then input
+		                        writer.println("GLOBALMESSAGE " +  name + ": " + input + " ");
+	                        }
+                    }
 
-                        // LÃ¤gg till villkor fÃ¶r endast till writer where name = string frÃ¥n gui
-                        writer.println("GLOBALMESSAGE " +  name + ": " + input + " ");
-                    }
-                    }
-                    //if det inte finns // i meddelandet
-                    
-                    //else
                 }
             } catch (IOException e) {
                 System.out.println(e);
             } finally {
                 //När klienten stänger ner
-            	
+            	//When the client exits the chat
             	if (name != null) {
-            		//Skickar till alla anslutna klienter att någon har loggat ut
+            		//Sending to all the connectiong users that a client has logged out
             		for (PrintWriter writer : ChatServer.writers) {
                     	writer.println("LOGOUT " + name);
                     }

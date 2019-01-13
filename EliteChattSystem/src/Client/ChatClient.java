@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import GUI.GUI;
 
 public class ChatClient {
-	//Clientens Reader Skrivare JFrame Textfield o TextArea 
+	//The Clients reader, writer and interface(GUI) 
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
@@ -26,7 +26,7 @@ public class ChatClient {
 		}
    
     }
-    
+    //When you start the program a JOptionPane will appear on the screen where you have to enter your IP
     //N�r man startar programmet kmr en JOptionPane ruta d�r man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
@@ -36,7 +36,7 @@ public class ChatClient {
             JOptionPane.QUESTION_MESSAGE);
     }
 
-    //Samma ruta som innan fast man ska skriva in vad man nickkar in-game 
+    //Same as the window before except now you have to enter your nickname for the chat 
     private String getName() {
         return JOptionPane.showInputDialog(
             gui.getFrame(),
@@ -44,7 +44,7 @@ public class ChatClient {
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
     }
-    //Connectar till servern efter man  skrivit in IP och namn 
+    //Connection to the server after entering IP and name; 
     private void run() throws IOException {
         String serverAddress = getServerAddress();
         Socket socket = new Socket(serverAddress, 9001);
@@ -68,18 +68,19 @@ public class ChatClient {
             	String text = (line.substring(15) + "\n");
                 gui.getMessageArea().append(text);
             } else if (line.startsWith("NEWLOGIN")) {
-            	//N�r en ny klient ansluter l�ggs den till i friendlist
+            	//When a new client connects to the server it will be added to the friendlist panel
             	gui.getFriendList().addUserToList(line.substring(9));
             } else if (line.startsWith("LOGOUT")) {
-            	//N�r en annan klient disconnectar tas den bort fr�n listan
+            	//When a new client leaves the chat room deleted to the friendlist panel
             	gui.getFriendList().removeUserFromList(line.substring(7));
             }
         }
     }
-
+    //Main everytime you start run it a new clint will be created. 
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
     }
+    //Getter and setter for the printWriter
 	public PrintWriter getOut() {
 		return out;
 	}
