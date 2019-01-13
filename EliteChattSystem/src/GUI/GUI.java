@@ -17,12 +17,10 @@ public class GUI extends AbstractGui{
     private JLabel labels[];
     private FriendList friendList;
     
-    public GUI(ChatClient c) {
-    	super(c);
-    	System.out.println("maingui k�r");
-    	
+    public GUI(ChatClient c, String t) {
+    	super(c, t);
 
-    	friendList = new FriendList();
+    	friendList = new FriendList(c);
     	
 	    //Frame layout
 	    frame.getContentPane().add(friendList.getScrollPane(), "East");

@@ -79,6 +79,19 @@ public class Handler extends Thread {
 							i++;
 						}
 					}
+				} else if(input.startsWith("CREATEGROUP")) {
+					System.out.println("CREATEGROUP FÖRST");
+					String ip = input.substring(12, input.indexOf(";"));
+					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
+					for (int i = 0; i < deltagare.length; i++) {
+						System.out.println("deltagare " + deltagare[i]);
+						for (int j = 0; j < ChatServer.ListNames.size(); j++) {
+							if (ChatServer.ListNames.get(j).equals(deltagare[i])) {
+								PrintWriter writer = ChatServer.ListWriters.get(j);
+								writer.println("GROUPINVITE " + ip);
+							}
+						}
+					}
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
 						writer.println("MESSAGE " + name + ": " + input + " ");

@@ -8,15 +8,17 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import GUI.GUI;
+import GUI.GruppChatt;
 
 public class ChatClient {
-	//Clientens Reader Skrivare JFrame Textfield o TextArea 
+	//Clientens Reader Skrivare JFrame Textfield o TextArea
+	private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
 
     public ChatClient() {
-    	gui = new GUI(this);
+    	gui = new GUI(this, "GLOBALCHAT");
     	
     	try {
 			run();
@@ -46,7 +48,7 @@ public class ChatClient {
     //Connectar till servern efter man  skrivit in IP och namn 
     private void run() throws IOException {
         String serverAddress = getServerAddress();
-        Socket socket = new Socket(serverAddress, 9001);
+        socket = new Socket(serverAddress, 9001);
         
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
@@ -62,16 +64,20 @@ public class ChatClient {
             } else if (line.startsWith("MESSAGE")) {
                 gui.getMessageArea().append(line.substring(8) + "\n");
             } else if (line.startsWith("NEWLOGIN")) {
-            	//N�r en ny klient ansluter l�ggs den till i friendlist
             	gui.getFriendList().addUserToList(line.substring(9));
             } else if (line.startsWith("LOGOUT")) {
             	gui.getFriendList().removeUserFromList(line.substring(7));
+            } else if (line.startsWith("GROUPINVITE")) {
+            	GruppChatt gc = new GruppChatt(this, "GROUPCHAT");
             }
         }
     }
 
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
+    }
+    public Socket getSocket() {
+    	return socket;
     }
 	public PrintWriter getOut() {
 		return out;
