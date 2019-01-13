@@ -65,7 +65,6 @@ public class ChatClient {
             	//N�r en ny klient ansluter l�ggs den till i friendlist
             	gui.getFriendList().addUserToList(line.substring(9));
             } else if (line.startsWith("LOGOUT")) {
-            	//N�r en annan klient disconnectar tas den bort fr�n listan
             	gui.getFriendList().removeUserFromList(line.substring(7));
             }
         }
