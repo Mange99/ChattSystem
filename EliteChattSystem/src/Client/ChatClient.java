@@ -65,6 +65,7 @@ public class ChatClient {
                 out.println(getName());
             } else if (line.startsWith("NAMEACCEPTED")) {
                 gui.getTextField().setEditable(true);
+                gui.getTextField().requestFocus();
             } else if (line.startsWith("GLOBALMESSAGE")) {
             	gui.getMessageArea().setForeground(Color.BLACK);
             	String text = (line.substring(14) + "\n");
@@ -73,8 +74,8 @@ public class ChatClient {
             	String text = (line.substring(15) + "\n");
                 gui.getMessageArea().append(text);
             } else if (line.startsWith("NEWLOGIN")) {
-
-            	gui.getFriendList().addUserToList(line.substring(9));
+                gui.getFriendList().addUserToList(line.substring(9));
+                gui.getMessageArea().append(gui.getTime() + " " + line.substring(9) + " has joined the cult");
             } else if (line.startsWith("LOGOUT")) {
             	gui.getFriendList().removeUserFromList(line.substring(7));
             } else if (line.startsWith("GROUPINVITE")) {

@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -36,10 +38,10 @@ public abstract class AbstractGui {
 		// happend, else just writes message and set the empty the textfield.
 		textField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					switch (textField.getText()) {
+					switch (textField.getText().trim().toLowerCase()) {
 						case "/dance":	
 						client.getOut().println("GIF " + "https://i.makeagif.com/media/3-27-2016/xHLL7Y.gif");break;
-						case"/shutUp": 
+						case"/shutup": 
 							client.getOut().println("GIF " + "https://i.imgur.com/HB7qjnW.gif");break;
 						case "/gay" : 
 							client.getOut().println("GIF " + "https://thumbs.gfycat.com/ImaginativeSecondhandHamadryas-size_restricted.gif");break;
@@ -48,11 +50,13 @@ public abstract class AbstractGui {
 						default: break;
 					}
 				if (!textField.getText().equalsIgnoreCase("")) {
+
 					client.getOut().println(textField.getText());
 					textField.setText("");
 				}
 			}
 		});
+
 
 		// The messageArea a JTextArea where all the messages appears
 		messageArea = new JTextArea(8, 40);
@@ -77,6 +81,13 @@ public abstract class AbstractGui {
 
 	}
 
+	public static String getTime() {
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		
+		
+		return sdf.format(c.getTime()).toString();
+	}
 	//Getters and setters for Textfield, MessageArea, JFrame
 	public JTextField getTextField() {
 		return textField;

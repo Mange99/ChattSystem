@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import GUI.AbstractGui;
+
 public class Handler extends Thread {
 	private String name;
 	private Socket socket;
@@ -71,10 +73,10 @@ public class Handler extends Thread {
 						for (String str : ChatServer.ListNames) {
 							if (str.trim().contains(namn)) {
 									PrintWriter writer = ChatServer.ListWriters.get(i);
-									writer.println("PRIVATEMESSAGE " + "Private Message From " + name + ": " + input);
+									writer.println("PRIVATEMESSAGE " + "[" + AbstractGui.getTime() +  "] " + "Private Message From " + name + ": " + input);
 								} else if (str.trim().contains(name)) {
 									PrintWriter writer = ChatServer.ListWriters.get(i);
-									writer.println("PRIVATEMESSAGE " + "Private Message To " + namn + ": " + input);
+									writer.println("PRIVATEMESSAGE " + "[" + AbstractGui.getTime() + "] " + "Private Message To " +  namn + ": " + input);
 								}
 							i++;
 						}
@@ -107,8 +109,9 @@ public class Handler extends Thread {
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
 						// Global message writes name : then input
-						System.out.println("Fuck us sideways " + input);
-						writer.println("GLOBALMESSAGE " + name + ": " + input + " ");
+						
+						System.out.println(AbstractGui.getTime());
+						writer.println("GLOBALMESSAGE " + "[" + AbstractGui.getTime() + "] " + name + ": " + input + " ");
 					}
 				}
 			}
