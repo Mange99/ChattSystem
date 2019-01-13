@@ -18,7 +18,6 @@ public class Handler extends Thread {
 
 	public void run() {
 		try {
-
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -39,8 +38,6 @@ public class Handler extends Thread {
 			}
 
 			out.println("NAMEACCEPTED");
-			// Skriver ut alla redan anslutna klienter till den nya för att läggas till i
-			// friendlist
 			for (String oldName : ChatServer.ListNames) {
 				if (!oldName.equals(this.name)) {
 					out.println("NEWLOGIN " + oldName);
@@ -63,24 +60,28 @@ public class Handler extends Thread {
 				if (input == null) {
 					return;
 				} else if (input.startsWith("!!")) {
-					System.out.println("har !! först");
-					if (!input.contains(" ") || input.substring(0, input.indexOf(" ")).length() > 20) {
-						System.out.println("hade inget blanksteg");
-					} else {
-						System.out.println("har blanksteg");
-						String namn = input.substring(input.indexOf("!!") + 2, input.indexOf(" "));
-						input = input.substring(input.indexOf(" "));
-						int i = 0;
-						for (String str : ChatServer.ListNames) {
-							if (str.trim().contains(namn) || str.trim().contains(name)) {
-								PrintWriter writer = ChatServer.ListWriters.get(i);
-								writer.println("MESSAGE " + name + ": " + input);
-							}
-							i++;
+					System.out.println(name);
+					//ITS ALL FUCKED UPP
+					String namn = input.substring(input.indexOf("!!") + 2, input.indexOf(" "));
+					System.out.println("namn: " + namn);
+					input = input.substring(input.indexOf(" "));
+					int i = 0;
+					for (String str : ChatServer.ListNames) {
+						if (str.trim().contains(namn)) {
+							PrintWriter writer = ChatServer.ListWriters.get(i);
+							writer.println("PRIVATEMESSAGE " + "Private Message From " + name + ": " + input);
+						} else if (str.trim().contains(name)) {
+							PrintWriter writer = ChatServer.ListWriters.get(i);
+							writer.println("PRIVATEMESSAGE " + "Private Message To " + namn + ": " + input);
 						}
+						i++;
 					}
-				} else if(input.startsWith("CREATEGROUP")) {
-					System.out.println("CREATEGROUP FÖRST");
+				} else if (input.startsWith("GIF")) {
+					for (PrintWriter writer : ChatServer.writers) {
+						writer.println("GIF " + input.substring(3));
+					}
+				}else if(input.startsWith("CREATEGROUP")) {
+					System.out.println("CREATEGROUP FÃ–RST");
 					String ip = input.substring(12, input.indexOf(";"));
 					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
 					for (int i = 0; i < deltagare.length; i++) {
@@ -94,17 +95,19 @@ public class Handler extends Thread {
 					}
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
-						writer.println("MESSAGE " + name + ": " + input + " ");
+						// Global message writes name : then input
+						System.out.println("Fuck us sideways " + input);
+						writer.println("GLOBALMESSAGE " + name + ": " + input + " ");
 					}
 				}
 			}
 		} catch (IOException e) {
 			System.out.println(e);
 		} finally {
-			// När klienten stänger ner
 			System.out.println("FINALLY");
+			// When the client exits the chat
 			if (name != null) {
-				// Skickar till alla anslutna klienter att någon har loggat ut
+				// Sending to all the connectiong users that a client has logged out
 				for (PrintWriter writer : ChatServer.writers) {
 					writer.println("LOGOUT " + name);
 				}

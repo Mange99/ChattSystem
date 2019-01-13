@@ -8,7 +8,7 @@ public class GUI extends AbstractGui{
   
     private JLabel labels[];
     private FriendList friendList;
-    
+  
     public GUI(ChatClient c, String t) {
     	super(c, t);
 
@@ -19,7 +19,7 @@ public class GUI extends AbstractGui{
 
 	    frame.revalidate();
 	}
-    
+    //Getter and setter for Label and getter for FriendList
 	public JLabel[] getLabels() {
 		return labels;
 	}
