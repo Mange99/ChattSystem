@@ -12,6 +12,7 @@ public class DisplayGifGUI {
 	public DisplayGifGUI(URL url, String text, GUI gui) {
 			Icon icon = new ImageIcon(url);
 			JLabel label = new JLabel(icon);
+			text = text.trim();
 			JFrame f = new JFrame(text);
 			gui.getTextField().setText("");
 			f.getContentPane().add(label);
