@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 
+import GUI.DisplayGifGUI;
 import GUI.GUI;
 
 public class ChatClient {
@@ -27,7 +29,6 @@ public class ChatClient {
    
     }
     //When you start the program a JOptionPane will appear on the screen where you have to enter your IP
-    //N�r man startar programmet kmr en JOptionPane ruta d�r man skriver in IP address aka lokal aka 127.0.0.1
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
         	gui.getFrame(),
@@ -73,6 +74,8 @@ public class ChatClient {
             } else if (line.startsWith("LOGOUT")) {
             	//When a new client leaves the chat room deleted to the friendlist panel
             	gui.getFriendList().removeUserFromList(line.substring(7));
+            }else if (line.startsWith("GIF")) {
+            	new DisplayGifGUI(new URL(line.substring(3)), "FunnyGifs", gui);
             }
         }
     }
