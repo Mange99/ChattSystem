@@ -1,4 +1,4 @@
-package Server;
+package GroupChat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,11 +6,11 @@ import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public abstract class AbstractServer implements Runnable {
+public class GroupServer extends Thread implements Runnable {
 	
-	protected static int PORT;
-	protected ServerSocket listener;
-    protected Thread thread;
+//	private Thread groupServerThread;
+	private static int PORT;
+	private ServerSocket listener;
     
 	protected static HashSet<String> names = new HashSet<String>();
     protected static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
@@ -19,19 +19,19 @@ public abstract class AbstractServer implements Runnable {
   	protected static LinkedList<String> ListNames  = new LinkedList<String>();
   	protected static LinkedList<PrintWriter> ListWriters  = new LinkedList<PrintWriter>();
    
-    
-	public AbstractServer(int port) throws IOException {
-		PORT = port;
+  	public GroupServer(int port) throws IOException {
+  		PORT = port;
         listener = new ServerSocket(PORT);
-        thread = new Thread(this);
-        thread.start();
+        this.start();
 	}
 	
 	public void run() {
-		System.out.println("The chat server is running.");
+		System.out.println("The chat server is running. " + Thread.currentThread());
+		new GroupChatClient("localhost", PORT);
 		 try {
 	            while (true) {
-	                new Handler(listener.accept()).start();
+	            	System.out.println("run " + Thread.currentThread());
+	                new GroupHandler(listener.accept()).start();
 	            } 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -50,6 +50,7 @@ public abstract class AbstractServer implements Runnable {
 	}
 
 	public static void setNames(HashSet<String> names) {
-		AbstractServer.names = names;
+		GroupServer.names = names;
 	}    
+	
 }

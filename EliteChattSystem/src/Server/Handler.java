@@ -21,7 +21,7 @@ public class Handler extends Thread {
 	}
   
 	public void run() {
-		System.out.println("handler run");
+		System.out.println("handler run " + this.getName());
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
@@ -101,6 +101,7 @@ public class Handler extends Thread {
 						writer.println("GIF " + input.substring(3));
 					}
 				}else if(input.startsWith("CREATEGROUP")) {
+					//Input "CREATEGROUP IP PORT; name name name"
 					String[] ipPort = input.split(" ");
 					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
 					for (int i = 0; i < deltagare.length; i++) {
@@ -108,7 +109,7 @@ public class Handler extends Thread {
 						for (int j = 0; j < ChatServer.ListNames.size(); j++) {
 							if (ChatServer.ListNames.get(j).equals(deltagare[i])) {
 								PrintWriter writer = ChatServer.ListWriters.get(j);
-								writer.println("GROUPINVITE " + ipPort[1] + " " + ipPort[2]);
+								writer.println("GROUPINVITE " + ipPort[1] + " " + ipPort[2].substring(0, ipPort[2].indexOf(";")));
 							}
 						}
 					}

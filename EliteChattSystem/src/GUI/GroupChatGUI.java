@@ -1,5 +1,6 @@
 package GUI;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Client.AbstractClient;
@@ -8,11 +9,11 @@ public class GroupChatGUI extends AbstractGUI{
 	
 	public GroupChatGUI(AbstractClient client, String title) {
 		super(client, title);
-	
+		
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.getTextField().setEditable(true);
 		if (acceptWindow() != 0) {
-			return;
-		} else {
-			textField.setEditable(true);
+			frame.dispose();
 		}
 		
 	}

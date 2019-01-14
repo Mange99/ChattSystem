@@ -7,7 +7,9 @@ import GUI.GUI;
 
 public class ChatClient extends AbstractClient {
 
-    public ChatClient(String serverAdress, int port) {
+    private static String username;
+
+	public ChatClient(String serverAdress, int port) {
     	super(serverAdress, port);
 
     	gui = new GUI(this, "GLOBALCHAT");
@@ -58,4 +60,10 @@ public class ChatClient extends AbstractClient {
     		new ChatClient(serverAdress, 9001);
     	}
     }
+	public static String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

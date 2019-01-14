@@ -49,7 +49,7 @@ public abstract class AbstractGUI {
 						default: break;	
 					}
 				if (!textField.getText().equalsIgnoreCase("")) {
-
+					System.out.println("gui textfield");
 					client.getOut().println(textField.getText());
 					textField.setText("");
 				}

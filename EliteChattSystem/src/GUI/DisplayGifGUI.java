@@ -9,13 +9,14 @@ import javax.swing.JLabel;
 
 public class DisplayGifGUI {
 	
-	public DisplayGifGUI(URL url, String text, AbstractGUI abstractGUI) {
+	public DisplayGifGUI(URL url, String text, AbstractGUI GUI) {
 			Icon icon = new ImageIcon(url);
 			JLabel label = new JLabel(icon);
 			text = text.trim();
 			JFrame f = new JFrame(text);
-			abstractGUI.getTextField().setText("");
+			GUI.getTextField().setText("");
 			f.getContentPane().add(label);
+			f.setLocationRelativeTo(GUI.getFrame());
 			f.setResizable(false);
 			f.pack();
 			f.setVisible(true);

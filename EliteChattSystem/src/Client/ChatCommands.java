@@ -6,13 +6,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import GUI.DisplayGifGUI;
-import GUI.GUI;
+import GroupChat.GroupChatClient;
 
 public class ChatCommands {
 	
 	public static void inputCommandsGlobal(PrintWriter out, String line, ChatClient client) {
     	if (line.startsWith("SUBMITNAME")) {
-            out.println(client.getName());
+    		String name = client.getName();
+    		client.setUsername(name);
+            out.println(name);
         } else if (line.startsWith("NAMEACCEPTED")) {
            client.getGUI().getTextField().setEditable(true);
             client.getGUI().getTextField().requestFocus();
@@ -31,12 +33,12 @@ public class ChatCommands {
         }  else if (line.startsWith("LOGOUT")) {
         	client.getGUI().getFriendList().removeUserFromList(line.substring(7));
         } else if (line.startsWith("GROUPINVITE")) {
+        	//input "GROUPINVITE IP PORT 
         	String[] ipPort = line.split(" ");
         	String ip = ipPort[1].substring(1);
-        	String port = ipPort[2];//.substring(0, ipPort[2].indexOf(";"));
+        	String port = ipPort[2];
         	System.out.println("ip port " + ip + " " + port);
-        	GroupChatClient gc = new GroupChatClient(ip, Integer.parseInt(port));
-        	gc.connectToGroupChat(ip, Integer.parseInt(port));
+        	new GroupChatClient(ip, Integer.parseInt(port));
         }else if (line.startsWith("GIF")) {
         	try {
 				new DisplayGifGUI(new URL(line.substring(3)), "FunnyGifs", client.getGUI());
@@ -47,7 +49,6 @@ public class ChatCommands {
 	}
 
 	public static void inputCommandsGroup(PrintWriter out, String line, GroupChatClient client) {
-		System.out.println("client.getgui " + client.getGUI());
 		if (line.startsWith("GLOBALMESSAGE")) {
 	    	client.getGUI().getMessageArea().setForeground(Color.BLACK);
 	    	String text = (line.substring(14) + "\n");

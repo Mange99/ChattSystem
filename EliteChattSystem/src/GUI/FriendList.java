@@ -14,7 +14,7 @@ import javax.swing.ScrollPaneConstants;
 
 
 import Client.ChatClient;
-import Client.GroupServer;
+import GroupChat.GroupServer;
 
 /**
  * @author alejyb1
@@ -33,12 +33,14 @@ public class FriendList extends JPanel {
 
     	createGroupButton = new JButton("Skapa grupp");
     	createGroupButton.addActionListener(e->{
-    		String port = JOptionPane.showInputDialog("Skriv in vilken port du vill starta servern på:");
+    		System.out.println("friendlist thread " + Thread.currentThread());
+    		String port = JOptionPane.showInputDialog(null, "Skriv in vilken port du vill starta servern på:");
     		try {
 				new GroupServer(Integer.parseInt(port));
 			} catch (NumberFormatException | IOException e1) {
 				e1.printStackTrace();
 			}
+    		System.out.println("Skickar creategrpu");
     		String createGroupMessage = "CREATEGROUP " + client.getSocket().getLocalAddress() + " " + port + ";";
     		for (int i = 0; i < checkBoxes.size(); i++) {
     			JCheckBox temp = checkBoxes.get(i);
