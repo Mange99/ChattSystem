@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,6 @@ public abstract class AbstractGui {
 	protected JTextArea messageArea;
 	private AbstractGui self;
 	protected JButton help;
-	
   
 	public AbstractGui(ChatClient client, String title) {
 		frame = new JFrame(title);
@@ -54,8 +54,8 @@ public abstract class AbstractGui {
 				}
 			}
 		});
-
-
+		
+		
 		// The messageArea a JTextArea where all the messages appears
 		messageArea = new JTextArea(8, 40);
 		messageArea.setEditable(false);
@@ -69,13 +69,14 @@ public abstract class AbstractGui {
 		
 		// new font
 		Font f = new Font("Comic Sans MS", Font.PLAIN, 15);
-
+		
 		//Setting the text in the textfield to black and adding font to both textfield and messageArea
 		textField.setForeground(Color.black);
 		textField.setFont(f);
 		messageArea.setFont(f);
 		
 		// Frame layout
+		frame.getContentPane().add(help, "South");
 		frame.getContentPane().add(textField, "South");
 		frame.getContentPane().add(new JScrollPane(messageArea), "Center");
 		
