@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.URL;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import GUI.DisplayGifGUI;
 import GUI.GUI;
@@ -20,7 +22,10 @@ public class ChatClient {
 	//The Clients reader, writer and interface(GUI) 
     private BufferedReader in;
     private PrintWriter out;
+    private JTextField username = new JTextField();
+    private JTextField password = new JPasswordField();
     private GUI gui;
+    private Object[] message = {"Username:", username,"Password:", password};
 
     public ChatClient() {
     	gui = new GUI(this, "GLOBALCHAT");
@@ -40,7 +45,6 @@ public class ChatClient {
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
     }
-
     //Same as the window before except now you have to enter your nickname for the chat 
     private String getName() {
         return JOptionPane.showInputDialog(

@@ -45,7 +45,7 @@ public abstract class AbstractGui {
 							client.getOut().println("GIF " + "https://thumbs.gfycat.com/ImaginativeSecondhandHamadryas-size_restricted.gif");break;
 						case "/740" : 
 							client.getOut().println("GIF " + "https://thumbs.gfycat.com/GoodSimpleGermanspaniel-max-1mb.gif");break;
-						default: break;
+						default: break;	
 					}
 				if (!textField.getText().equalsIgnoreCase("")) {
 
