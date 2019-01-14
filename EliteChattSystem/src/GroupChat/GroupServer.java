@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 public class GroupServer extends Thread implements Runnable {
 	
-//	private Thread groupServerThread;
 	private static int PORT;
 	private ServerSocket listener;
     
@@ -18,7 +17,8 @@ public class GroupServer extends Thread implements Runnable {
     //Lists to keep track of which user has what PrintWriter
   	protected static LinkedList<String> ListNames  = new LinkedList<String>();
   	protected static LinkedList<PrintWriter> ListWriters  = new LinkedList<PrintWriter>();
-   
+  	
+  	//Initializing ServerSocket for groupchat and starting a new Thread for the server
   	public GroupServer(int port) throws IOException {
   		PORT = port;
         listener = new ServerSocket(PORT);
@@ -26,11 +26,11 @@ public class GroupServer extends Thread implements Runnable {
 	}
 	
 	public void run() {
-		System.out.println("The chat server is running. " + Thread.currentThread());
+		//create a client after starting the new server Thread
 		new GroupChatClient("localhost", PORT);
 		 try {
 	            while (true) {
-	            	System.out.println("run " + Thread.currentThread());
+	            	//start new handler thread
 	                new GroupHandler(listener.accept()).start();
 	            } 
 			} catch (IOException e) {

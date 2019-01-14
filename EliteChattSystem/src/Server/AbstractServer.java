@@ -5,8 +5,10 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.LinkedList;
-
-public abstract class AbstractServer implements Runnable {
+/*
+ * SKIT I DENNA KLASS SÅ LÄNGE ALLT SOM BEHÖVER GÖRAS I SERVER GÖRS DIREKT I CHATTSERVER
+ * 
+ * public abstract class AbstractServer implements Runnable {
 	
 	protected static int PORT;
 	protected ServerSocket listener;
@@ -53,3 +55,4 @@ public abstract class AbstractServer implements Runnable {
 		AbstractServer.names = names;
 	}    
 }
+*/
