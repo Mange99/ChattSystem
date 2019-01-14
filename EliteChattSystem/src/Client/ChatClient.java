@@ -75,8 +75,10 @@ public class ChatClient {
                 gui.getMessageArea().append(text);
             } else if (line.startsWith("NEWLOGIN")) {
                 gui.getFriendList().addUserToList(line.substring(9));
-                gui.getMessageArea().append(gui.getTime() + " " + line.substring(9) + " has joined the cult");
-            } else if (line.startsWith("LOGOUT")) {
+                gui.getMessageArea().append(line.substring(9) + " has joined the cult \n");
+            }else if (line.startsWith("LOGGEDINUSER")) {
+                gui.getFriendList().addUserToList(line.substring(13));
+            }  else if (line.startsWith("LOGOUT")) {
             	gui.getFriendList().removeUserFromList(line.substring(7));
             } else if (line.startsWith("GROUPINVITE")) {
             	GruppChattGUI gc = new GruppChattGUI(this, "GROUPCHAT");
@@ -87,7 +89,7 @@ public class ChatClient {
             
         }
     }
-    //Main everytime you start run it a new clint will be created. 
+    //Main everytime you start run it a new client will be created. 
     public static void main(String[] args) throws Exception {
     	new ChatClient();
     }

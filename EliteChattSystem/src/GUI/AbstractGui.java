@@ -4,15 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -21,10 +16,10 @@ import Client.ChatClient;
 
 public abstract class AbstractGui {
 
-  protected JFrame frame;
+	protected JFrame frame;
 	protected JTextField textField;
 	protected JTextArea messageArea;
-  private AbstractGui self;
+	private AbstractGui self;
   
 	public AbstractGui(ChatClient client, String title) {
 
@@ -81,13 +76,6 @@ public abstract class AbstractGui {
 
 	}
 
-	public static String getTime() {
-		Calendar c = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		
-		
-		return sdf.format(c.getTime()).toString();
-	}
 	//Getters and setters for Textfield, MessageArea, JFrame
 	public JTextField getTextField() {
 		return textField;
