@@ -4,9 +4,9 @@ import javax.swing.JOptionPane;
 
 import Client.AbstractClient;
 
-public class GroupChatClientGUI extends AbstractGUI{
+public class GroupChatGUI extends AbstractGUI{
 	
-	public GroupChatClientGUI(AbstractClient client, String title) {
+	public GroupChatGUI(AbstractClient client, String title) {
 		super(client, title);
 	
 		if (acceptWindow() != 0) {

@@ -6,10 +6,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import GUI.GroupChatGUI;
+
 public class GroupChatClient extends AbstractClient{
 	
 	public GroupChatClient(String serverAdress, int port) {
 		super(serverAdress, port);
+		
+		new GroupChatGUI(this, "GROUPCHAT");
 	}
 	
 	public void connectToGroupChat(String ip, int port) {
