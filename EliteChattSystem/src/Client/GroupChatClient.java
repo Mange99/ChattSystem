@@ -13,7 +13,7 @@ public class GroupChatClient extends AbstractClient{
 	public GroupChatClient(String serverAdress, int port) {
 		super(serverAdress, port);
 		
-		new GroupChatGUI(this, "GROUPCHAT");
+		gui = new GroupChatGUI(this, "GROUPCHAT");
 	}
 	
 	public void connectToGroupChat(String ip, int port) {
@@ -25,11 +25,15 @@ public class GroupChatClient extends AbstractClient{
 	        while (true) {
 	            String line = in.readLine();
 	            System.out.println(line);
-	            ChatCommands.inputCommands(out, line, this);
+	            ChatCommands.inputCommandsGroup(out, line, this);
 	            
 	        }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public GroupChatGUI getGUI() {
+		return (GroupChatGUI) gui;
 	}
 }

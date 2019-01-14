@@ -13,7 +13,6 @@ public class DatabasInsert {
 	public PreparedStatement getPreparedStmt(String query) {
 		try {
 			preparedStmt = Database.conn.prepareStatement(query);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -33,7 +32,6 @@ public class DatabasInsert {
 			preparedStmt.setString(2, password);
 			preparedStmt.execute();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -21,11 +21,13 @@ public class Handler extends Thread {
 	}
   
 	public void run() {
+		System.out.println("handler run");
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
-
+			
 			while (true) {
+				System.out.println("HANDLER SUBMITNAME");
 				out.println("SUBMITNAME");
 				name = in.readLine();
 				if (name == null) {

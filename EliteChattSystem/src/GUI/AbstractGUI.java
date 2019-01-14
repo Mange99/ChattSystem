@@ -27,6 +27,7 @@ public abstract class AbstractGUI {
 	public AbstractGUI(AbstractClient client, String title) {
 
 		frame = new JFrame(title);
+		frame.setLocationRelativeTo(null);
 		self = this;
 		// Textfield where you enter your messages
 		textField = new JTextField(40);

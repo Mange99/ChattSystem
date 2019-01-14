@@ -1,8 +1,7 @@
 package Client;
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import GUI.GUI;
 
@@ -43,15 +42,20 @@ public class ChatClient extends AbstractClient {
         while (true) {
             String line = in.readLine();
             System.out.println("line : " + line);
-            ChatCommands.inputCommands(out, line, this);
+            ChatCommands.inputCommandsGlobal(out, line, this);
             
         }
     }
+    
+    public GUI getGUI() {
+    	return (GUI) gui;
+    }
+    
     //Main everytime you start run it a new client will be created. 
     public static void main(String[] args) throws Exception {
     	String serverAdress = getServerAddress();
     	if (serverAdress != null) {
-    		new ChatClient(serverAdress, 9005);
+    		new ChatClient(serverAdress, 9001);
     	}
     }
 }
