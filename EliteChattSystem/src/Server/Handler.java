@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import GUI.AbstractGui;
 
@@ -42,7 +44,7 @@ public class Handler extends Thread {
 			out.println("NAMEACCEPTED");
 			for (String oldName : ChatServer.ListNames) {
 				if (!oldName.equals(this.name)) {
-					out.println("NEWLOGIN " + oldName);
+					out.println("LOGGEDINUSER " + oldName);
 				}
 			}
 
@@ -58,7 +60,6 @@ public class Handler extends Thread {
 			while (true) {
 				String input = in.readLine();
 				System.out.println(input);
-				System.out.println(input);
 				if (input == null) {
 					return;
 				}  else if (input.startsWith("!!") && input.matches(".*\\s+.*")) {
@@ -73,10 +74,10 @@ public class Handler extends Thread {
 						for (String str : ChatServer.ListNames) {
 							if (str.trim().contains(namn)) {
 									PrintWriter writer = ChatServer.ListWriters.get(i);
-									writer.println("PRIVATEMESSAGE " + "[" + AbstractGui.getTime() +  "] " + "Private Message From " + name + ": " + input);
+									writer.println("PRIVATEMESSAGE " + "[" + getTime() +  "] " + "Private Message From " + name + ": " + input);
 								} else if (str.trim().contains(name)) {
 									PrintWriter writer = ChatServer.ListWriters.get(i);
-									writer.println("PRIVATEMESSAGE " + "[" + AbstractGui.getTime() + "] " + "Private Message To " +  namn + ": " + input);
+									writer.println("PRIVATEMESSAGE " + "[" + getTime() + "] " + "Private Message To " +  namn + ": " + input);
 								}
 							i++;
 						}
@@ -84,7 +85,7 @@ public class Handler extends Thread {
 						for (String str : ChatServer.ListNames) {
 							if (str.trim().contains(name)) {
 								PrintWriter writer = ChatServer.ListWriters.get(i);
-								writer.println("PRIVATEMESSAGE " + "User: " + namn + ", doesn�t exist, you have no friends");
+								writer.println("PRIVATEMESSAGE " + "User: " + namn + ", does not exist, you have no friends");
 								}
 							i++;
 						}
@@ -94,7 +95,6 @@ public class Handler extends Thread {
 						writer.println("GIF " + input.substring(3));
 					}
 				}else if(input.startsWith("CREATEGROUP")) {
-					System.out.println("CREATEGROUP FÖRST");
 					String ip = input.substring(12, input.indexOf(";"));
 					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
 					for (int i = 0; i < deltagare.length; i++) {
@@ -109,9 +109,7 @@ public class Handler extends Thread {
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
 						// Global message writes name : then input
-						
-						System.out.println(AbstractGui.getTime());
-						writer.println("GLOBALMESSAGE " + "[" + AbstractGui.getTime() + "] " + name + ": " + input + " ");
+						writer.println("GLOBALMESSAGE " + "[" + getTime() + "] " + name + ": " + input + " ");
 					}
 				}
 			}
@@ -137,5 +135,12 @@ public class Handler extends Thread {
 			} catch (IOException e) {
 			}
 		}
+	}
+	public String getTime() {
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		
+		
+		return sdf.format(c.getTime()).toString();
 	}
 }
