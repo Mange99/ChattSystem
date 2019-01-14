@@ -13,8 +13,6 @@ public class ChatClient extends AbstractClient {
 
     	gui = new GUI(this, "GLOBALCHAT");
     	//Every client gets their own missed messages
-    	missedGlobalMessages = new LinkedList<String>();
-    	clientList.add(this);
     	try {
 			run();
 		} catch (IOException e1) {
