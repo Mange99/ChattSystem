@@ -20,6 +20,12 @@ public abstract class AbstractServer {
         listener = new ServerSocket(PORT);
         
         try {
+			new Database();
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
             while (true) {
                 new Handler(listener.accept()).start();
             } 

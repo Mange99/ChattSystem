@@ -33,9 +33,8 @@ public abstract class AbstractGUI {
 		textField.setEditable(false);
 
 		// Textfield actionListener if there is any specific texts funny things will
-		// happend, else just writes message and set the empty the textfield.
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		// happen, else just writes message and set the textfield to empty
+		textField.addActionListener(e->{
 					switch (textField.getText().trim().toLowerCase()) {
 						case "/dance":	
 						client.getOut().println("GIF " + "https://i.makeagif.com/media/3-27-2016/xHLL7Y.gif");break;
@@ -52,8 +51,8 @@ public abstract class AbstractGUI {
 					client.getOut().println(textField.getText());
 					textField.setText("");
 				}
-			}
 		});
+		
 		
 		
 		// The messageArea a JTextArea where all the messages appears

@@ -11,6 +11,7 @@ public class Database {
 	public static Statement statement;
 
 	private static String databaseName = "ChattSystem";
+	private static String useSSL = "?autoReconnect=true&useSSL=false";
 	private static String userName = "root";
 	private static String password = "";
 	private static String url = "jdbc:mysql://localhost:3306/";
@@ -21,38 +22,35 @@ public class Database {
 	
 		try {
 			createUserTable();
+			createMessagesTable();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		insert = new DatabasInsert();
 		insert.createSuperAdmin();
-		insert.insertPerson("magnus", "bög");
 	}
 
-	public Connection getConnection() {
+	public static Connection getConnectionDatabase(String url, String userName, String password) {
+		
 		try {
 			Class.forName(DRIVER);
+			conn = DriverManager.getConnection(url, userName, password);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		try {
-			conn = DriverManager.getConnection(url, userName, password);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return conn;
-
 	}
 
 	public void createDatabase() {
 		try {
 
 			Class.forName(DRIVER);
-			conn = DriverManager.getConnection(url, userName, password);
+			conn = getConnectionDatabase(url + useSSL, userName, password);
 
 			String sql = "CREATE DATABASE IF NOT EXISTS " + databaseName;
 
@@ -66,16 +64,25 @@ public class Database {
 		}
 	}
 
+	//Creates the messagestable
+	public static void createMessagesTable() {
+		String messagesTable = "CREATE TABLE IF NOT EXISTS messages ("
+				+ "id_pk INT(64) NOT NULL AUTO_INCREMENT,"
+				+ "message VARCHAR(255),"
+				+ "user VARCHAR(255),"
+				+ "PRIMARY KEY(id_pk))";
+	}
+	
 	// Create the usertable
 	public static void createUserTable() throws Exception {
 		String userTable = "CREATE TABLE IF NOT EXISTS users (" 
-				+ "id INT(64) NOT NULL AUTO_INCREMENT,"
+				+ "id_pk INT(64) NOT NULL AUTO_INCREMENT,"
 				+ "username VARCHAR(255), "
 				+ "password VARCHAR(255),"
-				+ "PRIMARY KEY(id))";
+				+ "PRIMARY KEY(id_pk))";
 		try {
 			Class.forName(DRIVER);
-			conn = DriverManager.getConnection(url + databaseName, userName, password);
+			conn = getConnectionDatabase(url + databaseName + useSSL, userName, password);
 			statement = conn.createStatement();
 			statement.executeUpdate(userTable);
 			System.out.println("Table Created");
@@ -91,9 +98,5 @@ public class Database {
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("Couldn’t load database driver: " + cnfe.getMessage());
 		}
-	}
-
-	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
-		new Database();
 	}
 }

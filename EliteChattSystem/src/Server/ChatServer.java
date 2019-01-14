@@ -21,7 +21,7 @@ public class ChatServer extends AbstractServer {
 	
 	protected static LinkedList<String> globalMessages = new LinkedList<String>();
 	
-  //Main method to start server first makes a socket then it trys to run the handlers thread.
+  //Main method to start server first makes a socket then it tries to run the handlers thread.
   
     public static void main(String[] args) throws Exception {
     	new ChatServer(9005);
