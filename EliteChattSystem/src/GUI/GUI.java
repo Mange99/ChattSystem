@@ -13,9 +13,11 @@ public class GUI extends AbstractGUI{
     	super(c, t);
 
     	friendList = new FriendList(c);
-    	
-	    //Frame layout
-	    frame.getContentPane().add(friendList.getScrollPane(), "East");
+    	friendList.add(help);
+    	//Frame layout
+	   
+    	frame.getContentPane().add(friendList.getScrollPane(), "East");
+	    
 
 	    frame.revalidate();
 	}

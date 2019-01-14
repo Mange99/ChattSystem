@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -44,7 +45,7 @@ public abstract class AbstractGUI {
 							client.getOut().println("GIF " + "https://thumbs.gfycat.com/ImaginativeSecondhandHamadryas-size_restricted.gif");break;
 						case "/740" : 
 							client.getOut().println("GIF " + "https://thumbs.gfycat.com/GoodSimpleGermanspaniel-max-1mb.gif");break;
-						default: break;
+						default: break;	
 					}
 				if (!textField.getText().equalsIgnoreCase("")) {
 
@@ -59,11 +60,13 @@ public abstract class AbstractGUI {
 		messageArea = new JTextArea(8, 40);
 		messageArea.setEditable(false);
 		
-		help = new JButton("Help");
-//		help.setPreferredSize(new Dimension(130, 200));
+		help = new JButton("?");
+		help.setSize(10, 20);
 		help.addActionListener(e->{
-			
+			JOptionPane.showMessageDialog(frame, "To send Private Message Write: \n!!name whitespace then message\n"
+					+ "To send funny gifs wirte /nameOfGif");
 		});
+		
 		// new font
 		Font f = new Font("Comic Sans MS", Font.PLAIN, 15);
 		

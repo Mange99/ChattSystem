@@ -2,13 +2,17 @@ package Client;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import GUI.GUI;
 
 public class ChatClient extends AbstractClient {
 
+
     public ChatClient(String serverAdress, int port) {
     	super(serverAdress, port);
+
     	gui = new GUI(this, "GLOBALCHAT");
     	
     	try {
@@ -26,7 +30,6 @@ public class ChatClient extends AbstractClient {
             "Welcome to the Chatter",
             JOptionPane.QUESTION_MESSAGE);
     }
-
     //Same as the window before except now you have to enter your nickname for the chat 
     public String getName() {
         return JOptionPane.showInputDialog(
