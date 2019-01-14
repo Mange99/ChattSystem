@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
@@ -21,10 +22,18 @@ public class ChatClient {
     private BufferedReader in;
     private PrintWriter out;
     private GUI gui;
+    private boolean isOnline;
+    
+    //Every client ever connected
+    private static LinkedList<ChatClient> clientList = new LinkedList<ChatClient>();
+    //Missed global messages
+    public LinkedList<String> missedGlobalMessages;
 
     public ChatClient() {
     	gui = new GUI(this, "GLOBALCHAT");
-    	
+    	//Every client gets their own missed messages
+    	missedGlobalMessages = new LinkedList<String>();
+    	clientList.add(this);
     	try {
 			run();
 		} catch (IOException e1) {

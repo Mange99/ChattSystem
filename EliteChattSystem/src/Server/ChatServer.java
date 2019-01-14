@@ -15,6 +15,12 @@ public class ChatServer extends AbstractServer {
 	protected static LinkedList<String> ListNames  = new LinkedList<String>();
 	protected static LinkedList<PrintWriter> ListWriters  = new LinkedList<PrintWriter>();
 	
+	//Lists to keep track on total clients and who is logged in
+	protected static LinkedList<String> clientList = new LinkedList<String>();
+	protected static LinkedList<String> utloggadeClients = new LinkedList<String>();
+	
+	protected static LinkedList<String> globalMessages = new LinkedList<String>();
+	
   //Main method to start server first makes a socket then it trys to run the handlers thread.
   
     public static void main(String[] args) throws Exception {
