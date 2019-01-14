@@ -8,8 +8,6 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import GUI.AbstractGui;
-
 public class Handler extends Thread {
 	private String name;
 	private Socket socket;
@@ -95,14 +93,14 @@ public class Handler extends Thread {
 						writer.println("GIF " + input.substring(3));
 					}
 				}else if(input.startsWith("CREATEGROUP")) {
-					String ip = input.substring(12, input.indexOf(";"));
+					String[] ipPort = input.split(" ");
 					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
 					for (int i = 0; i < deltagare.length; i++) {
 						System.out.println("deltagare " + deltagare[i]);
 						for (int j = 0; j < ChatServer.ListNames.size(); j++) {
 							if (ChatServer.ListNames.get(j).equals(deltagare[i])) {
 								PrintWriter writer = ChatServer.ListWriters.get(j);
-								writer.println("GROUPINVITE " + ip);
+								writer.println("GROUPINVITE " + ipPort[1] + " " + ipPort[2]);
 							}
 						}
 					}

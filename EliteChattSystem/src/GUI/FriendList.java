@@ -1,17 +1,20 @@
 package GUI;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 
 import Client.ChatClient;
+import Client.GroupServer;
 
 /**
  * @author alejyb1
@@ -26,11 +29,17 @@ public class FriendList extends JPanel {
 	
 
 	public FriendList(ChatClient client) {
-		//A "Create Gruop Button" That will create a new gruop-chat with the people chosen form the checkboxes.
+		//A "Create Gruop Button" That will create a new groupchat with the people chosen form the checkboxes.
 
     	createGroupButton = new JButton("Skapa grupp");
     	createGroupButton.addActionListener(e->{
-    		String createGroupMessage = "CREATEGROUP " + client.getSocket().getLocalAddress() + ";";
+    		String port = JOptionPane.showInputDialog("Skriv in vilken port du vill starta servern på:");
+    		try {
+				new GroupServer(Integer.parseInt(port));
+			} catch (NumberFormatException | IOException e1) {
+				e1.printStackTrace();
+			}
+    		String createGroupMessage = "CREATEGROUP " + client.getSocket().getLocalAddress() + " " + port + ";";
     		for (int i = 0; i < checkBoxes.size(); i++) {
     			JCheckBox temp = checkBoxes.get(i);
     			

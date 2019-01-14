@@ -1,23 +1,19 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import javax.swing.JButton;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import Client.ChatClient;
+import Client.AbstractClient;
 
-public abstract class AbstractGui {
+public abstract class AbstractGUI {
 
 	protected JFrame frame;
 	protected JTextField textField;
@@ -25,9 +21,9 @@ public abstract class AbstractGui {
 
 	protected JButton help;
 
-	private AbstractGui self;
+	private AbstractGUI self;
   
-	public AbstractGui(ChatClient client, String title) {
+	public AbstractGUI(AbstractClient client, String title) {
 
 		frame = new JFrame(title);
 		self = this;
@@ -112,4 +108,5 @@ public abstract class AbstractGui {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
+	
 }
