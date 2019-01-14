@@ -2,13 +2,13 @@ package GUI;
 
 import javax.swing.JOptionPane;
 
-import Client.ChatClient;
+import Client.AbstractClient;
 
-public class GruppChattGUI extends AbstractGui{
+public class GroupChatGUI extends AbstractGUI{
 	
-	public GruppChattGUI(ChatClient client, String title) {
+	public GroupChatGUI(AbstractClient client, String title) {
 		super(client, title);
-		
+	
 		if (acceptWindow() != 0) {
 			return;
 		} else {
@@ -16,7 +16,7 @@ public class GruppChattGUI extends AbstractGui{
 		}
 		
 	}
-
+	
 	public int acceptWindow() {
 		return JOptionPane.showConfirmDialog(frame, "Joina");
 	}
