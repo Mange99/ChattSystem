@@ -4,15 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -24,10 +21,11 @@ public abstract class AbstractGui {
   protected JFrame frame;
 	protected JTextField textField;
 	protected JTextArea messageArea;
-  private AbstractGui self;
+	private AbstractGui self;
+	protected JButton help;
+	
   
 	public AbstractGui(ChatClient client, String title) {
-
 		frame = new JFrame(title);
 		self = this;
 		// Textfield where you enter your messages
@@ -61,7 +59,14 @@ public abstract class AbstractGui {
 		// The messageArea a JTextArea where all the messages appears
 		messageArea = new JTextArea(8, 40);
 		messageArea.setEditable(false);
-
+		
+		help = new JButton("?");
+		help.setSize(10, 20);
+		help.addActionListener(e->{
+			JOptionPane.showMessageDialog(frame, "To send Private Message Write: \n!!name whitespace then message\n"
+					+ "To send funny gifs wirte /nameOfGif");
+		});
+		
 		// new font
 		Font f = new Font("Comic Sans MS", Font.PLAIN, 15);
 
