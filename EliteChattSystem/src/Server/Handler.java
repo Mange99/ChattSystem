@@ -13,11 +13,13 @@ public class Handler extends Thread {
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
+	
+	
 
 	public Handler(Socket socket) {
 		this.socket = socket;
 	}
-
+  
 	public void run() {
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -33,7 +35,11 @@ public class Handler extends Thread {
 					if (!ChatServer.names.contains(name)) {
 						ChatServer.ListNames.add(name);
 						ChatServer.names.add(name);
+						ChatServer.clientList.add(name);
 						System.out.println("namn ok");
+						if(ChatServer.utloggadeClients.contains(name)) {
+							
+						}
 						break;
 					}
 				}
@@ -117,10 +123,11 @@ public class Handler extends Thread {
 			System.out.println("FINALLY");
 			// When the client exits the chat
 			if (name != null) {
-				// Sending to all the connectiong users that a client has logged out
+				// Sending to all the connecting users that a client has logged out
 				for (PrintWriter writer : ChatServer.writers) {
 					writer.println("LOGOUT " + name);
 				}
+				ChatServer.utloggadeClients.add(name);
 				ChatServer.names.remove(name);
 				ChatServer.ListNames.remove(name);
 			}

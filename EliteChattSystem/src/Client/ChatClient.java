@@ -1,6 +1,5 @@
 package Client;
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -9,12 +8,13 @@ import GUI.GUI;
 
 public class ChatClient extends AbstractClient {
 
-
     public ChatClient(String serverAdress, int port) {
     	super(serverAdress, port);
 
     	gui = new GUI(this, "GLOBALCHAT");
-    	
+    	//Every client gets their own missed messages
+    	missedGlobalMessages = new LinkedList<String>();
+    	clientList.add(this);
     	try {
 			run();
 		} catch (IOException e1) {
