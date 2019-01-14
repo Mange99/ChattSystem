@@ -18,6 +18,6 @@ public class ChatServer extends AbstractServer {
   //Main method to start server first makes a socket then it trys to run the handlers thread.
   
     public static void main(String[] args) throws Exception {
-    	new ChatServer(9001);
+    	new ChatServer(9005);
     }
 }

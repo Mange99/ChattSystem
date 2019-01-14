@@ -8,5 +8,7 @@ public class GroupServer extends AbstractServer {
 	
 	public GroupServer(int port) throws IOException {
 		super(port);
+		
+		new GroupChatClient("localhost", port);
 	}
 }

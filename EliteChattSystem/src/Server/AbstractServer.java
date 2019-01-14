@@ -11,19 +11,20 @@ public abstract class AbstractServer {
 	
 	protected static HashSet<String> names = new HashSet<String>();
     protected static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
-    
+    protected ServerSocket listener;
+   
 	public AbstractServer(int port) throws IOException {
 		PORT = port;
 		
 		System.out.println("The chat server is running.");
-        ServerSocket listener = new ServerSocket(PORT);
+        listener = new ServerSocket(PORT);
         
-         try {
+        try {
             while (true) {
                 new Handler(listener.accept()).start();
-            }
-        } finally {
-            listener.close();
+            } 
+		}finally {
+				listener.close();
         }
 	}
 	
