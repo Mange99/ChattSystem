@@ -27,7 +27,6 @@ public abstract class AbstractGUI {
 	public AbstractGUI(AbstractClient client, String title) {
 
 		frame = new JFrame(title);
-		frame.setLocationRelativeTo(null);
 		self = this;
 		// Textfield where you enter your messages
 		textField = new JTextField(40);
@@ -89,6 +88,7 @@ public abstract class AbstractGUI {
 
 		// frame settings, pack, visible, and close.
 		frame.setSize(700, 350);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
