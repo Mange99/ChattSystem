@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -31,6 +33,14 @@ public abstract class AbstractGUI {
 		// Textfield where you enter your messages
 		textField = new JTextField(40);
 		textField.setEditable(false);
+		JButton emoButton = new JButton("hello");
+		JPanel sendPanel = new JPanel();
+		sendPanel.add(textField);
+		sendPanel.add(emoButton);
+		
+		emoButton.addActionListener(e-> {
+			client.getOut().println("");
+		});
 
 		// Textfield actionListener if there is any specific texts funny things will
 		// happend, else just writes message and set the empty the textfield.
@@ -68,16 +78,14 @@ public abstract class AbstractGUI {
 		});
 		
 		// new font
-		Font f = new Font("Comic Sans MS", Font.PLAIN, 15);
+		//Font f = new Font("Segoe UI", Font.PLAIN, 15);
 		
 		//Setting the text in the textfield to black and adding font to both textfield and messageArea
 		textField.setForeground(Color.black);
-		textField.setFont(f);
-		messageArea.setFont(f);
 		
 		// Frame layout
 		frame.getContentPane().add(help, "South");
-		frame.getContentPane().add(textField, "South");
+		frame.getContentPane().add(sendPanel, "South");
 		frame.getContentPane().add(new JScrollPane(messageArea), "Center");
 		
 		//frame settings, pack, visible, and close.
