@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,7 +33,7 @@ public abstract class AbstractGUI {
 		self = this;
 		// Textfield where you enter your messages
 		textField = new JTextField(40);
-		textField.setEditable(false);
+		textField.setEditable(false);		
 		JButton emoButton = new JButton("hello");
 		JPanel sendPanel = new JPanel();
 		sendPanel.add(textField);
@@ -58,7 +59,7 @@ public abstract class AbstractGUI {
 						default: break;	
 					}
 				if (!textField.getText().equalsIgnoreCase("")) {
-
+					
 					client.getOut().println(textField.getText());
 					textField.setText("");
 				}
@@ -69,6 +70,8 @@ public abstract class AbstractGUI {
 		// The messageArea a JTextArea where all the messages appears
 		messageArea = new JTextArea(8, 40);
 		messageArea.setEditable(false);
+		
+		
 		
 		help = new JButton("?");
 		help.setSize(10, 20);
