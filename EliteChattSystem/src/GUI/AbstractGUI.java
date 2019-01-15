@@ -44,32 +44,25 @@ public abstract class AbstractGUI {
 		});
 
 		// Textfield actionListener if there is any specific texts funny things will
-		// happend, else just writes message and set the empty the textfield.
-		textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switch (textField.getText().trim().toLowerCase()) {
-				case "/dance":
-					client.getOut().println("GIF " + "https://i.makeagif.com/media/3-27-2016/xHLL7Y.gif");
-					break;
-				case "/shutup":
-					client.getOut().println("GIF " + "https://i.imgur.com/HB7qjnW.gif");
-					break;
-				case "/gay":
-					client.getOut().println(
-							"GIF " + "https://thumbs.gfycat.com/ImaginativeSecondhandHamadryas-size_restricted.gif");
-					break;
-				case "/740":
-					client.getOut().println("GIF " + "https://thumbs.gfycat.com/GoodSimpleGermanspaniel-max-1mb.gif");
-					break;
-				default:
-					break;
-				}
+		// happen, else just writes message and set the textfield to empty
+		textField.addActionListener(e->{
+					switch (textField.getText().trim().toLowerCase()) {
+						case "/dance":	
+						client.getOut().println("GIF " + "https://i.makeagif.com/media/3-27-2016/xHLL7Y.gif");break;
+						case"/shutup": 
+							client.getOut().println("GIF " + "https://i.imgur.com/HB7qjnW.gif");break;
+						case "/gay" : 
+							client.getOut().println("GIF " + "https://thumbs.gfycat.com/ImaginativeSecondhandHamadryas-size_restricted.gif");break;
+						case "/740" : 
+							client.getOut().println("GIF " + "https://thumbs.gfycat.com/GoodSimpleGermanspaniel-max-1mb.gif");break;
+						default: break;	
+					}
+
 				if (!textField.getText().equalsIgnoreCase("")) {
 					System.out.println("gui textfield");
 					client.getOut().println(textField.getText());
 					textField.setText("");
 				}
-			}
 		});
 
 		// The messageArea a JTextArea where all the messages appears

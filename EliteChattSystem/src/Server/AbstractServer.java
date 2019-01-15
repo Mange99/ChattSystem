@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.LinkedList;
 /*
- * SKIT I DENNA KLASS SÅ LÄNGE ALLT SOM BEHÖVER GÖRAS I SERVER GÖRS DIREKT I CHATTSERVER
+ * SKIT I DENNA KLASS SÃ… LÃ„NGE ALLT SOM BEHÃ–VER GÃ–RAS I SERVER GÃ–RS DIREKT I CHATTSERVER
  * 
  * public abstract class AbstractServer implements Runnable {
 	
@@ -25,6 +25,20 @@ import java.util.LinkedList;
 	public AbstractServer(int port) throws IOException {
 		PORT = port;
         listener = new ServerSocket(PORT);
+        
+        try {
+			new Database();
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+            while (true) {
+                new Handler(listener.accept()).start();
+            } 
+		}finally {
+				listener.close();
+        }
         thread = new Thread(this);
         thread.start();
 	}
@@ -45,6 +59,7 @@ import java.util.LinkedList;
 						e.printStackTrace();
 					}
 	        }
+
 	}
 	
 	public static HashSet<String> getNames() {

@@ -13,7 +13,7 @@ public class ChatClient extends AbstractClient {
     	super(serverAdress, port);
 
     	gui = new GUI(this, "GLOBALCHAT");
-    	//Every client gets their own missed messages
+  
     	try {
 			run();
 		} catch (IOException e1) {
@@ -31,6 +31,7 @@ public class ChatClient extends AbstractClient {
     }
     //Same as the window before except now you have to enter your nickname for the chat 
     public String getName() {
+    	new ClientLogin(this);
         return JOptionPane.showInputDialog(
             gui.getFrame(),
             "Choose a screen name:",
