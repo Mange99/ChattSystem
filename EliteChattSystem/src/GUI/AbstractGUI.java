@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -23,14 +26,22 @@ public abstract class AbstractGUI {
 	protected JButton help;
 
 	private AbstractGUI self;
-  
+
 	public AbstractGUI(AbstractClient client, String title) {
 
 		frame = new JFrame(title);
 		self = this;
 		// Textfield where you enter your messages
 		textField = new JTextField(40);
-		textField.setEditable(false);
+		textField.setEditable(false);		
+		JButton emoButton = new JButton("hello");
+		JPanel sendPanel = new JPanel();
+		sendPanel.add(textField);
+		sendPanel.add(emoButton);
+		
+		emoButton.addActionListener(e-> {
+			client.getOut().println("");
+		});
 
 		// Textfield actionListener if there is any specific texts funny things will
 		// happen, else just writes message and set the textfield to empty
@@ -46,47 +57,47 @@ public abstract class AbstractGUI {
 							client.getOut().println("GIF " + "https://thumbs.gfycat.com/GoodSimpleGermanspaniel-max-1mb.gif");break;
 						default: break;	
 					}
-				if (!textField.getText().equalsIgnoreCase("")) {
 
+				if (!textField.getText().equalsIgnoreCase("")) {
+					System.out.println("gui textfield");
 					client.getOut().println(textField.getText());
 					textField.setText("");
 				}
 		});
-		
-		
-		
+
 		// The messageArea a JTextArea where all the messages appears
 		messageArea = new JTextArea(8, 40);
 		messageArea.setEditable(false);
-		
 		help = new JButton("?");
 		help.setSize(10, 20);
-		help.addActionListener(e->{
+		help.addActionListener(e -> {
 			JOptionPane.showMessageDialog(frame, "To send Private Message Write: \n!!name whitespace then message\n"
 					+ "To send funny gifs wirte /nameOfGif");
 		});
-		
+
 		// new font
 		Font f = new Font("Comic Sans MS", Font.PLAIN, 15);
-		
-		//Setting the text in the textfield to black and adding font to both textfield and messageArea
+
+		// Setting the text in the textfield to black and adding font to both textfield
+		// and messageArea
 		textField.setForeground(Color.black);
 		textField.setFont(f);
 		messageArea.setFont(f);
-		
+
 		// Frame layout
 		frame.getContentPane().add(help, "South");
-		frame.getContentPane().add(textField, "South");
+		frame.getContentPane().add(sendPanel, "South");
 		frame.getContentPane().add(new JScrollPane(messageArea), "Center");
-		
-		//frame settings, pack, visible, and close.
+
+		// frame settings, pack, visible, and close.
 		frame.setSize(700, 350);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
-	//Getters and setters for Textfield, MessageArea, JFrame
+	// Getters and setters for Textfield, MessageArea, JFrame
 	public JTextField getTextField() {
 		return textField;
 	}
@@ -110,5 +121,5 @@ public abstract class AbstractGUI {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-	
+
 }
