@@ -1,18 +1,15 @@
-package Server;
+package GroupChat;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.util.HashSet;
 import java.util.LinkedList;
-/*
- * SKIT I DENNA KLASS SÅ LÄNGE ALLT SOM BEHÖVER GÖRAS I SERVER GÖRS DIREKT I CHATTSERVER
- * 
- * public abstract class AbstractServer implements Runnable {
+
+public class GroupServer extends Thread implements Runnable {
 	
-	protected static int PORT;
-	protected ServerSocket listener;
-    protected Thread thread;
+	private static int PORT;
+	private ServerSocket listener;
     
 	protected static HashSet<String> names = new HashSet<String>();
     protected static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
@@ -20,20 +17,21 @@ import java.util.LinkedList;
     //Lists to keep track of which user has what PrintWriter
   	protected static LinkedList<String> ListNames  = new LinkedList<String>();
   	protected static LinkedList<PrintWriter> ListWriters  = new LinkedList<PrintWriter>();
-   
-    
-	public AbstractServer(int port) throws IOException {
-		PORT = port;
+  	
+  	//Initializing ServerSocket for groupchat and starting a new Thread for the server
+  	public GroupServer(int port) throws IOException {
+  		PORT = port;
         listener = new ServerSocket(PORT);
-        thread = new Thread(this);
-        thread.start();
+        this.start();
 	}
 	
 	public void run() {
-		System.out.println("The chat server is running.");
+		//create a client after starting the new server Thread
+		new GroupChatClient("localhost", PORT);
 		 try {
 	            while (true) {
-	                new Handler(listener.accept()).start();
+	            	//start new handler thread
+	                new GroupHandler(listener.accept()).start();
 	            } 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -52,7 +50,7 @@ import java.util.LinkedList;
 	}
 
 	public static void setNames(HashSet<String> names) {
-		AbstractServer.names = names;
+		GroupServer.names = names;
 	}    
+	
 }
-*/
