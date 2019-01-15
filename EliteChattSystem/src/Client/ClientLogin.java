@@ -9,7 +9,7 @@ public class ClientLogin {
 	private JPasswordField password;
 	private String[] options;
 	
-	public ClientLogin() {
+	public ClientLogin(ChatClient client) {
 		
 		options = new String[3];
 		options[0] = "Log in";
@@ -29,19 +29,16 @@ public class ClientLogin {
 		int mainOption = JOptionPane.showOptionDialog(panel, "Log in", "Log in", 0, JOptionPane.INFORMATION_MESSAGE, null,options, null);
 		int option;
 		
-		System.out.println(mainOption);
 		switch(mainOption) {
 		case 0: 
 			
 			option = JOptionPane.showConfirmDialog(null, panel, "Log in", JOptionPane.OK_CANCEL_OPTION);
-			System.out.println(option + " inloggning");
 			if(option == 0) {
 				String userName = username.getText();
 				char[] pass = password.getPassword();
-				System.out.println("inloggad " + option);
 				//loginCheck(userName, pass);
+				//client.getOut().print();
 			}
-			System.out.println("du loggas in");
 			break;
 		case 1:
 			option = JOptionPane.showConfirmDialog(null, panel, "Register", JOptionPane.OK_CANCEL_OPTION);
@@ -49,12 +46,11 @@ public class ClientLogin {
 			if(option == 0) {
 				String userName = username.getText();
 				char[] pass = password.getPassword();
-				System.out.println("Registreard " + option);
-				//registerUser(userName, pass);
+				String query = "INSERT INTO users (username , password)" + "VALUES (?, ?)";
+				client.getOut().print(query);
 				break;
 			}
 		case 2:
-			System.out.println("Cancel");
 			break;
 		}
 	}

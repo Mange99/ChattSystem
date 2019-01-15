@@ -30,7 +30,7 @@ public class ChatClient extends AbstractClient {
     }
     //Same as the window before except now you have to enter your nickname for the chat 
     public String getName() {
-    	new ClientLogin();
+    	new ClientLogin(this);
         return JOptionPane.showInputDialog(
             gui.getFrame(),
             "Choose a screen name:",
