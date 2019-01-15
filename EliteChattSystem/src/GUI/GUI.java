@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 import Client.ChatClient;
 
-public class GUI extends AbstractGui{
+public class GUI extends AbstractGUI{
   
     private JLabel labels[];
     private FriendList friendList;
@@ -13,20 +13,22 @@ public class GUI extends AbstractGui{
     	super(c, t);
 
     	friendList = new FriendList(c);
-    	
-	    //Frame layout
-	    frame.getContentPane().add(friendList.getScrollPane(), "East");
+    	friendList.add(help);
+    	//Frame layout
+	   
+    	frame.getContentPane().add(friendList.getScrollPane(), "East");
+	    
 
 	    frame.revalidate();
 	}
     //Getter and setter for Label and getter for FriendList
+    public FriendList getFriendList() {
+		return friendList;
+	}
 	public JLabel[] getLabels() {
 		return labels;
 	}
 	public void setLabels(JLabel[] labels) {
 		this.labels = labels;
-	}
-	public FriendList getFriendList() {
-		return friendList;
 	}
 }

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-
-import GUI.AbstractGui;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Handler extends Thread {
 	private String name;
@@ -19,12 +19,13 @@ public class Handler extends Thread {
 	}
 
 	public void run() {
+		// Input and Output
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 
 			while (true) {
-				out.println("SUBMITNAME");
+				out.println("SUBMITNAME ");
 				name = in.readLine();
 				if (name == null) {
 					return;
@@ -33,20 +34,25 @@ public class Handler extends Thread {
 					if (!ChatServer.names.contains(name)) {
 						ChatServer.ListNames.add(name);
 						ChatServer.names.add(name);
+						ChatServer.clientList.add(name);
 						System.out.println("namn ok");
+						if (ChatServer.utloggadeClients.contains(name)) {
+
+						}
 						break;
 					}
 				}
 			}
 
-			out.println("NAMEACCEPTED");
+			out.println("NAMEACCEPTED ");
+			// Outputting the online users to the new user
 			for (String oldName : ChatServer.ListNames) {
 				if (!oldName.equals(this.name)) {
-					out.println("NEWLOGIN " + oldName);
+					out.println("LOGGEDINUSER " + oldName);
 				}
 			}
 
-			// Skriver ut den ny klientens namn till alla tidigare anslutna klienter
+			// Outputting the new user to all online users
 			for (PrintWriter writer : ChatServer.writers) {
 				writer.println("NEWLOGIN " + name);
 			}
@@ -54,38 +60,39 @@ public class Handler extends Thread {
 			ChatServer.ListWriters.add(out);
 			ChatServer.writers.add(out);
 
-			// MESSAGE LOOPEN
+			// MESSAGE LOOP
 			while (true) {
 				String input = in.readLine();
 				System.out.println(input);
-				System.out.println(input);
 				if (input == null) {
 					return;
-				}  else if (input.startsWith("!!") && input.matches(".*\\s+.*")) {
+				} else if (input.startsWith("!!") && input.matches(".*\\s+.*")) {
 					System.out.println(name);
-					//ITS ALL FUCKED UPP
 					String namn = input.substring(input.indexOf("!!") + 2, input.indexOf(" "));
 					System.out.println("namn: " + namn);
-					
+
 					input = input.substring(input.indexOf(" "));
 					int i = 0;
-					if(ChatServer.names.contains(namn)) {
+					if (ChatServer.names.contains(namn)) {
 						for (String str : ChatServer.ListNames) {
 							if (str.trim().contains(namn)) {
-									PrintWriter writer = ChatServer.ListWriters.get(i);
-									writer.println("PRIVATEMESSAGE " + "[" + AbstractGui.getTime() +  "] " + "Private Message From " + name + ": " + input);
-								} else if (str.trim().contains(name)) {
-									PrintWriter writer = ChatServer.ListWriters.get(i);
-									writer.println("PRIVATEMESSAGE " + "[" + AbstractGui.getTime() + "] " + "Private Message To " +  namn + ": " + input);
-								}
+								PrintWriter writer = ChatServer.ListWriters.get(i);
+								writer.println("PRIVATEMESSAGE " + "[" + getTime() + "] " + "Private Message From "
+										+ name + ": " + input);
+							} else if (str.trim().contains(name)) {
+								PrintWriter writer = ChatServer.ListWriters.get(i);
+								writer.println("PRIVATEMESSAGE " + "[" + getTime() + "] " + "Private Message To " + namn
+										+ ": " + input);
+							}
 							i++;
 						}
-					}else {
+					} else {
 						for (String str : ChatServer.ListNames) {
 							if (str.trim().contains(name)) {
 								PrintWriter writer = ChatServer.ListWriters.get(i);
-								writer.println("PRIVATEMESSAGE " + "User: " + namn + ", doesn�t exist, you have no friends");
-								}
+								writer.println(
+										"PRIVATEMESSAGE " + "User: " + namn + ", does not exist, you have no friends");
+							}
 							i++;
 						}
 					}
@@ -93,25 +100,25 @@ public class Handler extends Thread {
 					for (PrintWriter writer : ChatServer.writers) {
 						writer.println("GIF " + input.substring(3));
 					}
-				}else if(input.startsWith("CREATEGROUP")) {
-					System.out.println("CREATEGROUP FÖRST");
-					String ip = input.substring(12, input.indexOf(";"));
+				} else if (input.startsWith("CREATEGROUP")) {
+					// Input "CREATEGROUP IP PORT; name name name"
+					// Output "GROUPINVITE IP PORT" to every name
+					String[] ipPort = input.split(" ");
 					String[] deltagare = input.substring(input.indexOf(";") + 1).split(" ");
 					for (int i = 0; i < deltagare.length; i++) {
 						System.out.println("deltagare " + deltagare[i]);
 						for (int j = 0; j < ChatServer.ListNames.size(); j++) {
 							if (ChatServer.ListNames.get(j).equals(deltagare[i])) {
 								PrintWriter writer = ChatServer.ListWriters.get(j);
-								writer.println("GROUPINVITE " + ip);
+								writer.println("GROUPINVITE " + ipPort[1] + " "
+										+ ipPort[2].substring(0, ipPort[2].indexOf(";")));
 							}
 						}
 					}
 				} else {
 					for (PrintWriter writer : ChatServer.writers) {
-						// Global message writes name : then input
-						
-						System.out.println(AbstractGui.getTime());
-						writer.println("GLOBALMESSAGE " + "[" + AbstractGui.getTime() + "] " + name + ": " + input + " ");
+						// Global message outputs[hh:mm:ss] name : input
+						writer.println("GLOBALMESSAGE " + "[" + getTime() + "] " + name + ": " + input + " ");
 					}
 				}
 			}
@@ -121,10 +128,11 @@ public class Handler extends Thread {
 			System.out.println("FINALLY");
 			// When the client exits the chat
 			if (name != null) {
-				// Sending to all the connectiong users that a client has logged out
+				// Sending to all the connecting users that a client has logged out
 				for (PrintWriter writer : ChatServer.writers) {
 					writer.println("LOGOUT " + name);
 				}
+				ChatServer.utloggadeClients.add(name);
 				ChatServer.names.remove(name);
 				ChatServer.ListNames.remove(name);
 			}
@@ -137,5 +145,16 @@ public class Handler extends Thread {
 			} catch (IOException e) {
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @return String [hh:mm:ss]
+	 */
+	public String getTime() {
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+		return sdf.format(c.getTime()).toString();
 	}
 }
