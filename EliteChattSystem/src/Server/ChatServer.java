@@ -32,7 +32,6 @@ public class ChatServer extends Thread implements Runnable {
        try {
 			new Database();
 		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			// Creating a Handler and starting a new Thread for each client connecting

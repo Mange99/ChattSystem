@@ -31,7 +31,6 @@ public class ChatClient extends AbstractClient {
     }
     //Same as the window before except now you have to enter your nickname for the chat 
     public String getName() {
-    	new ClientLogin(this);
         return JOptionPane.showInputDialog(
             gui.getFrame(),
             "Choose a screen name:",
@@ -40,13 +39,11 @@ public class ChatClient extends AbstractClient {
     }
     //Connection to the server after entering IP and name; 
     private void run() throws IOException {
-        
         // Process all messages from server, according to the protocol.
         while (true) {
             String line = in.readLine();
             System.out.println("line : " + line);
             ChatCommands.inputCommandsGlobal(out, line, this);
-            
         }
     }
     

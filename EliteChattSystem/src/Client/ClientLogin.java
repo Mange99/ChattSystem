@@ -9,7 +9,7 @@ public class ClientLogin {
 	private JPasswordField password;
 	private String[] options;
 	
-	public ClientLogin(ChatClient client) {
+	public ClientLogin() {
 		
 		options = new String[3];
 		options[0] = "Log in";
@@ -26,32 +26,48 @@ public class ClientLogin {
 		panel.add(new JLabel("Password"));
 		panel.add(password);
 		
-		int mainOption = JOptionPane.showOptionDialog(panel, "Log in", "Log in", 0, JOptionPane.INFORMATION_MESSAGE, null,options, null);
-		int option;
 		
-		switch(mainOption) {
+	}
+	
+	public int getLoginGUIInput() {
+		return JOptionPane.showOptionDialog(panel, "Log in", "Log in", 0, JOptionPane.INFORMATION_MESSAGE, null,options, null);
+	}
+	
+	public String loginRegisterGUI(int input) {
+		int option;
+		String query = "";
+		
+		switch(input) {
 		case 0: 
-			
 			option = JOptionPane.showConfirmDialog(null, panel, "Log in", JOptionPane.OK_CANCEL_OPTION);
 			if(option == 0) {
 				String userName = username.getText();
 				char[] pass = password.getPassword();
-				//loginCheck(userName, pass);
-				//client.getOut().print();
+				String password = "";
+				for(int i = 0; i < pass.length; i++) {
+					password = password + pass[i];
+				}
+				query = "LOGIN " + userName + ":" + password;
+				System.out.println("output " + query);
 			}
 			break;
 		case 1:
+			System.out.println("case 1 clientlogin");
 			option = JOptionPane.showConfirmDialog(null, panel, "Register", JOptionPane.OK_CANCEL_OPTION);
-			System.out.println("Registrering" + option);
 			if(option == 0) {
 				String userName = username.getText();
-				char[] pass = password.getPassword();
-				String query = "INSERT INTO users (username , password)" + "VALUES (?, ?)";
-				client.getOut().print(query);
+				char[] passArr = password.getPassword();
+				String password = "";
+				for(int i = 0; i < passArr.length; i++) {
+					password = password + passArr[i];
+				}
+				query = "REGISTER " + userName + ":" + password;
+				System.out.println(query);
 				break;
 			}
 		case 2:
 			break;
 		}
+		return query;
 	}
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 public class Database {
 	public static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -16,6 +17,10 @@ public class Database {
 	private static String password = "";
 	private static String url = "jdbc:mysql://localhost:3306/";
 	private DatabasInsert insert;
+	private LinkedList<String> userPass = new LinkedList<String>();
+	LinkedList<String> users;
+	LinkedList<String> pass;
+	
 	public Database() throws InstantiationException, IllegalAccessException {
 		conn = null;
 		createDatabase();
@@ -27,20 +32,32 @@ public class Database {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		insert = new DatabasInsert();
-		insert.createSuperAdmin();
+//		insert = new DatabasInsert();
+//		insert.createSuperAdmin();
+//		RetrieveDatabase getDBUsers = new RetrieveDatabase();
+		//userPass = getDBUsers.getUsers();
 	}
-
+	
+	public void setUserPass(LinkedList userPass) {
+		users = new LinkedList<String>();
+		pass = new LinkedList<String>();
+ 		
+		for(int i = 0; i < userPass.size(); i++) {
+		String tempUserPass = (String)userPass.get(i);
+		int splitter = tempUserPass.lastIndexOf(":");
+		String tempUser = tempUserPass.substring(0, splitter);
+		String tempPass = tempUserPass.substring(splitter + 1);
+		users.add(tempUser);
+		pass.add(tempPass);
+		}
+	}
+	
 	public static Connection getConnectionDatabase(String url, String userName, String password) {
 		
 		try {
 			Class.forName(DRIVER);
 			conn = DriverManager.getConnection(url, userName, password);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		return conn;
@@ -65,12 +82,31 @@ public class Database {
 	}
 
 	//Creates the messagestable
-	public static void createMessagesTable() {
+	public static void createMessagesTable() throws InstantiationException, IllegalAccessException {
 		String messagesTable = "CREATE TABLE IF NOT EXISTS messages ("
 				+ "id_pk INT(64) NOT NULL AUTO_INCREMENT,"
 				+ "message VARCHAR(255),"
 				+ "user VARCHAR(255),"
 				+ "PRIMARY KEY(id_pk))";
+		
+		try {
+			Class.forName(DRIVER);
+			conn = getConnectionDatabase(url + databaseName + useSSL, userName, password);
+			statement = conn.createStatement();
+			statement.executeUpdate(messagesTable);
+			System.out.println("Message Table Created");
+		} catch (SQLException e) {
+			System.out.println("An error has occured on Table Creation");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("An Mysql drivers were not found");
+		}
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("Couldn’t load database driver: " + cnfe.getMessage());
+		}
 	}
 	
 	// Create the usertable

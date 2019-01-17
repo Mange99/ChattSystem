@@ -7,13 +7,26 @@ import java.net.URL;
 
 import GUI.DisplayGifGUI;
 import GroupChat.GroupChatClient;
+import Server.DatabasInsert;
 
 public class ChatCommands {
 
 	public static void inputCommandsGlobal(PrintWriter out, String line, ChatClient client) {
 		String text = "";
 		String command = line.substring(0, line.indexOf(" "));
+		System.out.println(command);
 		switch (command) {
+		case "LOGINGUI": 
+			ClientLogin cl = new ClientLogin();
+			int option = cl.getLoginGUIInput();
+			String query = "";
+			if (option == 0) {
+				query = cl.loginRegisterGUI(option);
+			} else if (option == 1) {
+				query = cl.loginRegisterGUI(option);
+			}
+			client.getOut().println(query);
+			break;
 		case "SUBMITNAME":
 			String name = client.getName();
 			client.setUsername(name);
