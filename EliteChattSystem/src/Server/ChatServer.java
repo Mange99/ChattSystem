@@ -29,6 +29,11 @@ public class ChatServer extends Thread implements Runnable {
 	public void run() {
 		System.out.println("The chat server is running. " + Thread.currentThread());
 		try {
+       try {
+			new Database();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 			// Creating a Handler and starting a new Thread for each client connecting
 			while (true) {
 				new Handler(listener.accept()).start();
@@ -61,7 +66,6 @@ public class ChatServer extends Thread implements Runnable {
 
 	// Main method to start server first makes a socket then it trys to run the
 	// handlers thread.
-
 	public static void main(String[] args) throws Exception {
 		new ChatServer(9001);
 	}

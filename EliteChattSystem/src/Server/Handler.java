@@ -9,10 +9,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Handler extends Thread {
+	
 	private String name;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
+	private String login;
 
 	public Handler(Socket socket) {
 		this.socket = socket;
@@ -25,6 +27,25 @@ public class Handler extends Thread {
 			out = new PrintWriter(socket.getOutputStream(), true);
 
 			while (true) {
+				out.println("LOGINGUI ");
+				login = in.readLine();
+				System.out.println("input " + login);
+				if(login.startsWith("REGISTER ")) {
+					DatabasInsert dbInsert = new DatabasInsert();
+					dbInsert.insertPerson(login);
+				}else if(login.startsWith("LOGIN ")) {
+					String[] usernamePass = login.substring(6).split(":"); 
+					RetrieveDatabase rb = new RetrieveDatabase();
+					System.out.println("rbchecklogin " + usernamePass[0] + " " + usernamePass[1]);
+					if (rb.checkLogin(usernamePass[0], usernamePass[1])) {
+						System.out.println("login login login");
+					} else {
+						System.out.println("false");
+						break;
+					}
+					
+				}
+				
 				out.println("SUBMITNAME ");
 				name = in.readLine();
 				if (name == null) {

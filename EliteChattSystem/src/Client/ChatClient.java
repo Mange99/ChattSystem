@@ -13,7 +13,7 @@ public class ChatClient extends AbstractClient {
     	super(serverAdress, port);
 
     	gui = new GUI(this, "GLOBALCHAT");
-    	//Every client gets their own missed messages
+  
     	try {
 			run();
 		} catch (IOException e1) {
@@ -39,13 +39,11 @@ public class ChatClient extends AbstractClient {
     }
     //Connection to the server after entering IP and name; 
     private void run() throws IOException {
-        
         // Process all messages from server, according to the protocol.
         while (true) {
             String line = in.readLine();
             System.out.println("line : " + line);
             ChatCommands.inputCommandsGlobal(out, line, this);
-            
         }
     }
     
