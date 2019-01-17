@@ -52,14 +52,14 @@ public abstract class AbstractGUI {
 					client.getOut().println("GIF " + "https://i.makeagif.com/media/3-27-2016/xHLL7Y.gif");
 					break;
 				case "/shutup":
-					client.getOut().println("GIF " + "https://i.imgur.com/HB7qjnW.gif");
+					client.getOut().println("GIF " + "https://i.imgur.com/dYCGdez.gif");
 					break;
-				case "/gay":
+				case "/party":
 					client.getOut().println(
-							"GIF " + "https://thumbs.gfycat.com/ImaginativeSecondhandHamadryas-size_restricted.gif");
+							"GIF " + "https://i.imgur.com/ZmdRWDi.gif");
 					break;
 				case "/740":
-					client.getOut().println("GIF " + "https://thumbs.gfycat.com/GoodSimpleGermanspaniel-max-1mb.gif");
+					client.getOut().println("GIF " + "https://i.imgur.com/gNj04Uw.gif");
 					break;
 				default:
 					break;
