@@ -16,9 +16,9 @@ public class DisplayGifGUI {
 			JFrame f = new JFrame(text);
 			GUI.getTextField().setText("");
 			f.getContentPane().add(label);
-			f.setLocationRelativeTo(GUI.getFrame());
 			f.setResizable(false);
 			f.pack();
+			f.setLocationRelativeTo(GUI.getFrame());
 			f.setVisible(true);
 	}
 }
