@@ -4,16 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.charset.StandardCharsets;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import Client.AbstractClient;
 
@@ -24,9 +24,9 @@ public abstract class AbstractGUI {
 	protected JTextArea messageArea;
 
 	protected JButton help;
-
 	private AbstractGUI self;
-
+	private JButton likeButton;
+	
 	public AbstractGUI(AbstractClient client, String title) {
 
 		frame = new JFrame(title);
@@ -34,16 +34,36 @@ public abstract class AbstractGUI {
 		// Textfield where you enter your messages
 		textField = new JTextField(40);
 		textField.setEditable(false);		
-		JButton emoButton = new JButton("hello");
+		likeButton = new JButton("Like");
 		JPanel sendPanel = new JPanel();
 		sendPanel.add(textField);
-		sendPanel.add(emoButton);
+		sendPanel.add(likeButton);
 		
-		emoButton.addActionListener(e-> {
-			client.getOut().println("");
-		});
+		likeButton.addActionListener(e-> {
+			client.getOut().println("GIF " + "https://i.imgur.com/WljaRxX.gif");
+			System.out.println("Thumbs Up Bro");
+			likeButton.setEnabled(false);
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException ex) {
+					}
+					try {
+						SwingUtilities.invokeAndWait(new Runnable() {
+							public void run() {
+								likeButton.setEnabled(true);
+							}
+						});
+					} catch (InvocationTargetException ex) {
+					} catch (InterruptedException ex) {
+					}
+				}
+			}).start();
+		}); 
 
 		// Textfield actionListener if there is any specific texts funny things will
+
 		// happen, else just writes message and set the textfield to empty
 		textField.addActionListener(e->{
 					switch (textField.getText().trim().toLowerCase()) {
