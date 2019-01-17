@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
 
 public class Database {
 	public static final String DRIVER = "com.mysql.jdbc.Driver";
@@ -16,10 +15,6 @@ public class Database {
 	private static String userName = "root";
 	private static String password = "";
 	private static String url = "jdbc:mysql://localhost:3306/";
-	private DatabasInsert insert;
-	private LinkedList<String> userPass = new LinkedList<String>();
-	LinkedList<String> users;
-	LinkedList<String> pass;
 	
 	public Database() throws InstantiationException, IllegalAccessException {
 		conn = null;
@@ -27,29 +22,11 @@ public class Database {
 	
 		try {
 			createUserTable();
-			createMessagesTable();
+//			createMessagesTable();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		insert = new DatabasInsert();
-//		insert.createSuperAdmin();
-//		RetrieveDatabase getDBUsers = new RetrieveDatabase();
-		//userPass = getDBUsers.getUsers();
-	}
-	
-	public void setUserPass(LinkedList userPass) {
-		users = new LinkedList<String>();
-		pass = new LinkedList<String>();
- 		
-		for(int i = 0; i < userPass.size(); i++) {
-		String tempUserPass = (String)userPass.get(i);
-		int splitter = tempUserPass.lastIndexOf(":");
-		String tempUser = tempUserPass.substring(0, splitter);
-		String tempPass = tempUserPass.substring(splitter + 1);
-		users.add(tempUser);
-		pass.add(tempPass);
-		}
+		
 	}
 	
 	public static Connection getConnectionDatabase(String url, String userName, String password) {
@@ -110,7 +87,7 @@ public class Database {
 	}
 	
 	// Create the usertable
-	public static void createUserTable() throws Exception {
+	public void createUserTable() throws Exception {
 		String userTable = "CREATE TABLE IF NOT EXISTS users (" 
 				+ "id_pk INT(64) NOT NULL AUTO_INCREMENT,"
 				+ "username VARCHAR(255), "
@@ -135,4 +112,5 @@ public class Database {
 			System.out.println("Couldn’t load database driver: " + cnfe.getMessage());
 		}
 	}
+
 }

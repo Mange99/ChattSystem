@@ -62,6 +62,6 @@ public class ChatClient extends AbstractClient {
 		return username;
 	}
 	public void setUsername(String username) {
-		this.username = username;
+		ChatClient.username = username;
 	}
 }
