@@ -11,7 +11,8 @@ public class ChatServer extends Thread implements Runnable {
 	protected static int PORT;
 	protected ServerSocket listener;
 	protected Thread thread;
-
+	protected static Database database;
+	
 	protected static HashSet<String> names = new HashSet<String>();
 	protected static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
 
@@ -28,13 +29,15 @@ public class ChatServer extends Thread implements Runnable {
 
 	public void run() {
 		System.out.println("The chat server is running. " + Thread.currentThread());
-		try {
+
        try {
-			new Database();
+			database = new Database();
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-			// Creating a Handler and starting a new Thread for each client connecting
+		
+       try {
+       		// Creating a Handler and starting a new Thread for each client connecting
 			while (true) {
 				new Handler(listener.accept()).start();
 			}
@@ -44,7 +47,6 @@ public class ChatServer extends Thread implements Runnable {
 			try {
 				listener.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -57,11 +59,13 @@ public class ChatServer extends Thread implements Runnable {
 	public static void setNames(HashSet<String> names) {
 		ChatServer.names = names;
 	}
-
+	
+	public static Database getDB() {
+		return database;
+	}
 	// Lists to keep track on total clients and who is logged in
 	protected static LinkedList<String> clientList = new LinkedList<String>();
 	protected static LinkedList<String> utloggadeClients = new LinkedList<String>();
-
 	protected static LinkedList<String> globalMessages = new LinkedList<String>();
 
 	// Main method to start server first makes a socket then it trys to run the

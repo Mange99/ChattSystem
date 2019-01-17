@@ -7,7 +7,6 @@ import java.net.URL;
 
 import GUI.DisplayGifGUI;
 import GroupChat.GroupChatClient;
-import Server.DatabasInsert;
 
 public class ChatCommands {
 
@@ -17,15 +16,27 @@ public class ChatCommands {
 		System.out.println(command);
 		switch (command) {
 		case "LOGINGUI": 
-			ClientLogin cl = new ClientLogin();
+			ClientLogin cl = new ClientLogin(client);
 			int option = cl.getLoginGUIInput();
 			String query = "";
 			if (option == 0) {
 				query = cl.loginRegisterGUI(option);
 			} else if (option == 1) {
 				query = cl.loginRegisterGUI(option);
+			} else {
+				client.getGUI().getFrame().dispose(); 
 			}
 			client.getOut().println(query);
+			break;
+		case "REGISTERTRUE": System.out.println("registrad"); break;
+		case "REGISTERFALSE": 
+			System.out.println("REGISTERFALSE");
+			client.getGUI().getFrame().dispose();
+			break;
+		case "LOGINTRUE ": System.out.println("inloggad"); break;
+		case "LOGINFALSE":
+			System.out.println("LOGIN FALSE");
+			client.getGUI().getFrame().dispose();
 			break;
 		case "SUBMITNAME":
 			String name = client.getName();

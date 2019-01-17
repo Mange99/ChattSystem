@@ -14,8 +14,9 @@ public class Handler extends Thread {
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
-	private String login;
-
+	private String input;
+	private String username;
+	
 	public Handler(Socket socket) {
 		this.socket = socket;
 	}
@@ -25,27 +26,36 @@ public class Handler extends Thread {
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
-
-			while (true) {
-				out.println("LOGINGUI ");
-				login = in.readLine();
-				System.out.println("input " + login);
-				if(login.startsWith("REGISTER ")) {
+			
+			out.println("LOGINGUI ");
+			input = in.readLine();
+			System.out.println("input " + input);
+			RetrieveDatabase rb = new RetrieveDatabase();
+			if(input.startsWith("REGISTER ")) {
+				String[] namePass = input.substring(9).split(":");
+				//check if the new username and password already exists in the database
+				if (!rb.checkIfUserInDatabase(namePass[0], namePass[1])) {
 					DatabasInsert dbInsert = new DatabasInsert();
-					dbInsert.insertPerson(login);
-				}else if(login.startsWith("LOGIN ")) {
-					String[] usernamePass = login.substring(6).split(":"); 
-					RetrieveDatabase rb = new RetrieveDatabase();
-					System.out.println("rbchecklogin " + usernamePass[0] + " " + usernamePass[1]);
-					if (rb.checkLogin(usernamePass[0], usernamePass[1])) {
-						System.out.println("login login login");
-					} else {
-						System.out.println("false");
-						break;
+					dbInsert.insertNewPerson(namePass[0], namePass[1]);
+					out.println("REGISTERTRUE ");
+					//login the new user if not already logged in
+					if (!loginUser(rb, namePass[0], namePass[1])){
+						return;
 					}
-					
+				} else {
+					System.out.println("användare finns redan i databasen");
+					out.println("REGISTERFALSE ");
+					return;
 				}
+			}else if(input.startsWith("LOGIN ")) {
+				String[] usernamePass = input.substring(6).split(":"); 
+				username = usernamePass[0];
+				if (!loginUser(rb, username, usernamePass[1])) {
+					return;
+				}
+			}
 				
+			while (true) {
 				out.println("SUBMITNAME ");
 				name = in.readLine();
 				if (name == null) {
@@ -57,15 +67,13 @@ public class Handler extends Thread {
 						ChatServer.names.add(name);
 						ChatServer.clientList.add(name);
 						System.out.println("namn ok");
-						if (ChatServer.utloggadeClients.contains(name)) {
-
-						}
 						break;
 					}
 				}
 			}
 
 			out.println("NAMEACCEPTED ");
+			
 			// Outputting the online users to the new user
 			for (String oldName : ChatServer.ListNames) {
 				if (!oldName.equals(this.name)) {
@@ -153,6 +161,8 @@ public class Handler extends Thread {
 				for (PrintWriter writer : ChatServer.writers) {
 					writer.println("LOGOUT " + name);
 				}
+				
+				ChatServer.clientList.remove(username);
 				ChatServer.utloggadeClients.add(name);
 				ChatServer.names.remove(name);
 				ChatServer.ListNames.remove(name);
@@ -165,6 +175,25 @@ public class Handler extends Thread {
 				socket.close();
 			} catch (IOException e) {
 			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param rb
+	 * @param username
+	 * @param password
+	 * @return if the user is logging in
+	 * checks if the user exists in the database and checks if that username is already logged in
+	 */
+	private boolean loginUser(RetrieveDatabase rb, String username, String password) {
+		if (rb.checkIfUserInDatabase(username, password) && !ChatServer.clientList.contains(username)) {
+			ChatServer.clientList.add(username);
+			out.println("LOGINTRUE ");
+			return true;
+		} else {
+			out.println("LOGINFALSE ");
+			return false;
 		}
 	}
 

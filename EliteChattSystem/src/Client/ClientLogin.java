@@ -8,9 +8,10 @@ public class ClientLogin {
 	private JTextField username;
 	private JPasswordField password;
 	private String[] options;
+	private ChatClient client;
 	
-	public ClientLogin() {
-		
+	public ClientLogin(ChatClient client) {
+		this.client = client;
 		options = new String[3];
 		options[0] = "Log in";
 		options[1] = "Register";
@@ -49,6 +50,8 @@ public class ClientLogin {
 				}
 				query = "LOGIN " + userName + ":" + password;
 				System.out.println("output " + query);
+			} else {
+				this.client.getGUI().getFrame().dispose();
 			}
 			break;
 		case 1:
@@ -64,8 +67,10 @@ public class ClientLogin {
 				query = "REGISTER " + userName + ":" + password;
 				System.out.println(query);
 				break;
+			} else {
+				this.client.getGUI().getFrame().dispose();
 			}
-		case 2:
+		case 2: this.client.getGUI().getFrame().dispose(); 
 			break;
 		}
 		return query;
