@@ -188,10 +188,12 @@ public class Handler extends Thread {
 	 */
 	private boolean loginUser(RetrieveDatabase rb, String username, String password) {
 		if (rb.checkIfUserInDatabase(username, password) && !ChatServer.clientList.contains(username)) {
+			System.out.println("LOGINTRUE");
 			ChatServer.clientList.add(username);
 			out.println("LOGINTRUE ");
 			return true;
 		} else {
+			System.out.println("LOGINFALSE");
 			out.println("LOGINFALSE ");
 			return false;
 		}
